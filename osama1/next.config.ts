@@ -1,18 +1,22 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
+    domains: ['res.cloudinary.com', 'media.rawg.io', 'example.com'],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "media.rawg.io",  // تحديد نطاق موثوق به
-        pathname: "/**", // يسمح بالتحميل من جميع المسارات
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
       },
       {
-        protocol: "https",
-        hostname: "example.com",  // إضافة نطاقات أخرى حسب الحاجة
-        pathname: "/**",
+        protocol: 'https',
+        hostname: 'media.rawg.io',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        pathname: '/**',
       },
     ],
   },
@@ -20,13 +24,9 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   unoptimized: true,
-};
-module.exports = {
   env: {
     MONGO_URI: process.env.MONGO_URI,
   },
 };
 
-
-export default nextConfig;
-
+module.exports = nextConfig;

@@ -65,6 +65,7 @@ export const NAV_LINKS = [
 
 const SideBar = () => {
   const { user, isLoading } = useGetUser();
+  console.log(user);
   const queryClient = useQueryClient();
   return (
     <div className=" col-span-2">
