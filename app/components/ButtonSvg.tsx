@@ -1,14 +1,14 @@
 const ButtonSvg = (white: boolean) => (
   <>
     {/* left */}
-    <svg className="absolute top-0 lg:left-[0.150rem] left-[0.125rem]" width="16" height="44" viewBox="0 0 21 44">
+    {/* <svg className="absolute top-0 lg:left-[0.150rem] left-[0.125rem]" width="16" height="44" viewBox="0 0 21 44">
       <path
         fill={white ? "yellow" : "none"}
         stroke={white ? "yellow" : "#a3e635"}
         strokeWidth="2"
         d="M21,43 Q5,22 21,1"
       />
-    </svg>
+    </svg> */}
 
     {/* center */}
     <svg
@@ -18,30 +18,30 @@ const ButtonSvg = (white: boolean) => (
       preserveAspectRatio="none"
     >
       {white ? (
-        <rect width="100" height="50" fill="yellow" rx="12" />
+        <rect width="100" height="50" fill="green" rx="12" />
       ) : (
         <>
           <defs>
             <linearGradient id="modern-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#a3e635" />
-              <stop offset="100%" stopColor="#65a30d" />
+              <stop offset="0%" stopColor="dark" />
+              
             </linearGradient>
             <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
-              <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#000000" floodOpacity="0.2" />
+              <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#f6ff00" floodOpacity="0.2" />
             </filter>
           </defs>
           <rect
             width="100"
-            height="44"
-            rx="12"
+            height="38"
+            rx="19"
             fill="url(#modern-gradient)"
-            filter="url(#shadow)"
+            // filter="url(#shadow)"
           />
         </>
       )}
     </svg>
 
-    {/* right */}
+    {/* right
     <svg className="absolute top-0 right-[0.150rem]" width="16" height="44" viewBox="0 0 21 44">
       <path
         fill={white ? "yellowgreen" : "none"}
@@ -49,7 +49,7 @@ const ButtonSvg = (white: boolean) => (
         strokeWidth="2"
         d="M0,43 Q16,22 0,1"
       />
-    </svg>
+    </svg> */}
   </>
 );
 

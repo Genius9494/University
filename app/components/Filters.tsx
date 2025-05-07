@@ -18,7 +18,7 @@ const Filters = ({ generes }: { generes: any[] }) => {
   return (
     <GridContainer className=" gap-5 relative" cols={11}>
       <div className="  lg:sticky lg:h-screen  inset-0 col-span-full lg:col-span-2">
-        <div className=" flex  flex-row flex-wrap lg:flex-col gap-3 bg-main py-4 px-8 rounded-2xl ">
+        <div className=" flex  flex-row flex-wrap lg:flex-col gap-3 bg-gray-400 py-4 px-8 rounded-2xl ">
           {generes.map((genre: any, i: number) => (
             <button
               onClick={() => {
@@ -26,7 +26,7 @@ const Filters = ({ generes }: { generes: any[] }) => {
                   ? setActiveGenres(activeGenres.filter((id) => id !== genre.id))
                   : setActiveGenres([...activeGenres, genre.id]);
               }}
-              className={`${activeGenres.includes(genre.id) ? "bg-rose-400" : ""}  text-base   rounded-xl`}
+              className={`${activeGenres.includes(genre.id) ? "bg-yellow-400" : ""}  text-base   rounded-xl`}
               key={i}
             >
               {genre.name}

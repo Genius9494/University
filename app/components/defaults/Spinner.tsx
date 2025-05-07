@@ -2,7 +2,10 @@ import React from "react";
 import { BiLoaderCircle } from "react-icons/bi";
 
 const Spinner = () => {
-  return <BiLoaderCircle className=" text-rose-400 m-auto   w-5 h-5 text-center animate-spin " />;
+  return <div id="done">
+    <BiLoaderCircle className=" text-purple-400 mt-80 w-16 h-16 animate-spin" />
+    <p className=" mt-4 text-red-400 ">.....Please Wait</p>
+  </div> 
 };
 
 export default Spinner;

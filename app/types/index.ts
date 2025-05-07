@@ -13,6 +13,7 @@ interface Game {
   added: number;
   added_by_status: AddedByStatus;
   description_raw: string;
+  background_image_additional?: string;
   metacritic: number | null;
   playtime: number;
   suggestions_count: number;

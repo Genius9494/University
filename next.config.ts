@@ -5,7 +5,14 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        hostname: "*",
+        protocol: "https",
+        hostname: "media.rawg.io",  // تحديد نطاق موثوق به
+        pathname: "/**", // يسمح بالتحميل من جميع المسارات
+      },
+      {
+        protocol: "https",
+        hostname: "example.com",  // إضافة نطاقات أخرى حسب الحاجة
+        pathname: "/**",
       },
     ],
   },
@@ -15,3 +22,4 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+

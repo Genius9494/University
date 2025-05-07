@@ -1,43 +1,81 @@
+import React from "react";
+import Image from "next/image";
 import { getGame } from "@/app/api/api";
 import GamesSlider from "@/app/components/GamesSlider";
 import SwiperCards from "@/app/components/SwiperCards";
-import Image from "next/image";
-import React from "react";
 
 const page = async ({ params }: { params: { id: string } }) => {
-  const { id } = await params;
-  const game = await getGame(id);
-  console.log(game);
-  const { screenshots, data, similar }: { screenshots: any[]; data: Game; similar: any[] } = game;
-  console.log(data.ratings);
-  return (
-    <div className=" mt-10">
-      <div>
-        <div className=" col-span-4 flex flex-col gap-2">
-          <h1 className=" text-2xl text-white">{data.name}</h1>
+  try {
+    const { id } = params;
+    const game = await getGame(id);
+
+    const {
+      screenshots,
+      data,
+      similar,
+    }: {
+      screenshots: { results: any[] };
+      data: Game;
+      similar: { results: Game[] };
+    } = game;
+
+    const additionalImage = data.background_image_additional;
+
+    // تجميع الصور والتأكد من أن كلها صالحة
+    const allImages = [
+      ...screenshots.results,
+      ...(additionalImage ? [additionalImage] : []),
+      data.background_image,
+    ].filter(Boolean); // حذف null/undefined
+
+    return (
+      <div className="mt-10">
+        <div className="col-span-4 flex flex-col gap-2">
+          <h1 className="text-2xl text-white">{data.name}</h1>
           <div>Rating count : {data.ratings_count}</div>
+
           <SwiperCards
             slidesPerView={1}
-            className=" h-full"
-            items={[...screenshots.results, data.background_image, data.background_image_additional].map(
-              (screenshot) => {
-                return {
-                  card: (
-                    <div className=" rounded-xl overflow-hidden h-[36rem] w-full relative">
-                      <Image src={screenshot.image || screenshot} alt={data.name} fill className=" object-cover" />
-                    </div>
-                  ),
-                  src: screenshot.image || screenshot,
-                };
-              }
-            )}
+            className="h-full"
+            items={allImages.map((screenshot) => ({
+              card: (
+                <div className="rounded-xl overflow-hidden h-[36rem] w-full relative">
+                  <Image
+                    src={screenshot.image || screenshot}
+                    alt={data.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              ),
+              src: screenshot.image || screenshot,
+            }))}
             paginationImages
           />
-          <p className=" mt-10 col-span-2">{data.description_raw}</p>
+
+          <p className="mt-10 col-span-2">{data.description_raw}</p>
         </div>
-      </div>{" "}
-      <GamesSlider title="Similar Games" games={similar.results} />
-      {/* <div>
+
+        {similar?.results?.length > 0 && (
+          <GamesSlider title="Similar Games" games={similar.results} />
+        )}
+      </div>
+    );
+  } catch (error) {
+    console.error("Error in game page:", error);
+    return <div className="text-red-500 p-4">حدث خطأ أثناء تحميل اللعبة.</div>;
+  }
+};
+
+export default page;
+
+
+
+
+
+
+
+{/* <div>
         {data.ratings.map(({ title, count, percent, id }) => (
           <div key={id} className="flex items-center gap-2 mb-4">
             {imageSrc && <img src={imageSrc} alt={title} className="w-8 h-8" />}
@@ -50,11 +88,6 @@ const page = async ({ params }: { params: { id: string } }) => {
           </div>
         ))}
       </div> */}
-    </div>
-  );
-};
-
-export default page;
 
 /*
 you learned 

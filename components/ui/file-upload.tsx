@@ -96,6 +96,7 @@ export const FileUpload = ({ onChange }: { onChange?: (files: File[]) => void })
                         src={URL.createObjectURL(file)}
                         alt={file.name}
                         className="  w-full h-full object-cover"
+                        priority
                       />
                     </div>
                   )}

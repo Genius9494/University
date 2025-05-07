@@ -36,6 +36,7 @@ export default function Home() {
               alt="Vercel logomark"
               width={20}
               height={20}
+              priority
             />
             Deploy now
           </a>
@@ -62,6 +63,7 @@ export default function Home() {
             alt="File icon"
             width={16}
             height={16}
+            priority
           />
           Learn
         </a>
@@ -77,6 +79,7 @@ export default function Home() {
             alt="Window icon"
             width={16}
             height={16}
+            priority
           />
           Examples
         </a>
@@ -92,6 +95,7 @@ export default function Home() {
             alt="Globe icon"
             width={16}
             height={16}
+            priority
           />
           Go to nextjs.org →
         </a>

@@ -47,8 +47,8 @@ export const NAV_LINKS = [
 ,
   },
   {
-    link: "/popular",
-    label: "Popular",
+    link: "/ratings",
+    label: "Ratings",
     icon: <FiActivity />
 
 

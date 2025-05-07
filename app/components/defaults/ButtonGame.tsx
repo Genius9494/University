@@ -28,7 +28,7 @@ const ButtonGame = ({
       }}
       className={`${
         className || ""
-      } hover:text-yellow-300 duration-150 min-w-[100px] relative px-6 flex-initial gap-2 py-2 text-center m-auto`}
+      } hover:text-yellow-300 text-green-500 duration-150 min-w-[100px] relative px-6 flex-initial gap-2 py-2 text-center m-auto`}
     >
       {ButtonSvg(false)}
       <span className=" relative"> {disabled ? <Spinner/> : link ? <Link href={link}>{text}</Link> : text}</span>

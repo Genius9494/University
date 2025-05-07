@@ -4,9 +4,14 @@ const KEY = "fcbd529a05684ba98365adaf247f7c68";
 // دالة fetch موثوقة مع فحص للأخطاء
 
 const fetchFn = async (url: string, cache?: number) => {
-  const res = await fetch(url, {
-    next: { revalidate: cache || 3600 },
-  });
+  const fetchOptions: RequestInit | any = {};
+
+  // فقط أضف خيارات revalidate في بيئة الخادم
+  if (typeof window === "undefined") {
+    fetchOptions.next = { revalidate: cache || 3600 };
+  }
+
+  const res = await fetch(url, fetchOptions);
 
   if (!res.ok) {
     throw new Error(`Failed to fetch: ${res.status} ${res.statusText}`);
@@ -14,6 +19,7 @@ const fetchFn = async (url: string, cache?: number) => {
 
   return await res.json();
 };
+
 
 // البحث عن الألعاب بناءً على استعلام وكلمات مفتاحية
 export const searchGames = async function (
@@ -48,6 +54,7 @@ export const getGame = async function (id: string) {
 export const getGameFromgenres = async function (genre = "51") {
   const data = await fetchFn(`${APIURL}games?genres=${genre}&page_size=15&key=${KEY}`);
   return data;
+  console.log(data)
 };
 
 // الألعاب حسب منصة معينة
