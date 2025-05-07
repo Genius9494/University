@@ -24,7 +24,7 @@ const Hero = () => {
                   <source type="video/mp4" src="/fortnight.mp4" />
                 </video>{" "}
                 <CardInfo
-                  btnClasses=" text-white bg-red-500 hover:bg-red-400"
+                  btnClasses=" font-bold text-white bg-green-500 hover:bg-red-400"
                   desc="Fortnite is an online battle royale game where 100 players fight to be the last one standing. Players collect weapons, build structures, and compete in fast-paced action. It also has fun events and creative game modes."
                   title="Epic game"
                   image="/fortnight.png"
@@ -45,7 +45,7 @@ const Hero = () => {
                   <source type="video/mp4" src="/mortalkombat.mp4" />
                 </video>
                 <CardInfo
-                  btnClasses="  text-white bg-orange-500 hover:bg-orange-400"
+                  btnClasses=" font-bold text-white bg-green-500 hover:bg-orange-400"
                   desc="Mortal Kombat is a fighting game where two characters battle each other using punches, kicks, and special moves."
                   title="Combat"
                   image="/mortalkombat.png"
@@ -66,7 +66,7 @@ const Hero = () => {
                   <source type="video/mp4" src="/goodofwar.mp4" />
                 </video>
                 <CardInfo
-                  btnClasses="  text-white bg-orange-500 hover:bg-orange-400"
+                  btnClasses=" font-bold text-white bg-green-500 hover:bg-orange-400"
                   desc="God of War is an action-adventure game that follows Kratos, a powerful warrior, on his journey through ancient mythological worlds."
                   title="action"
                   image="/godofwar.png"
@@ -87,7 +87,7 @@ const Hero = () => {
                   <source type="video/mp4" src="/mincraft.mp4" />
                 </video>
                 <CardInfo
-                  btnClasses="  text-white bg-orange-500 hover:bg-orange-400"
+                  btnClasses="font-bold text-white bg-green-500 hover:bg-orange-400"
                   desc="Minecraft is a sandbox game where players can build and explore their own worlds made of blocks. You can mine resources, craft tools"
                   title="Advanture"
                   image="/mincraft.png"

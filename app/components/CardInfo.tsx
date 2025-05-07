@@ -33,7 +33,7 @@ const CardInfo = ({
         />
       </div>
       <h1 className="text-yellow-300 text-2xl font-semibold">{title}</h1>
-      <p className="text-base text-gray-100">{desc}</p>
+      <p className="text-base text-gray-200">{desc}</p>
       <Button className={`rounded-full mt-5 ${btnClasses || "text-gray-50"}`}>
         {textBtn || "Find out more !"}
       </Button>
