@@ -4,117 +4,128 @@ import User from "../models/user";
 import connect from "./connet";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
+import { NextResponse } from "next/server"; // استخدم NextResponse
+import { cookies } from "next/headers"; // استيراد cookies بشكل صحيح من next/headers
 
-// مدة صلاحية الـ JWT
-const JWT_EXPIRES = 90 * 60;
+const JWT_EXPIRES = 90 * 60; // 90 دقيقة
 
-// إنشاء رمز الـ JWT
+// توليد التوكن
 const generateToken = ({ id }: { id: any }) => {
-   return jwt.sign({ id }, process.env.JWT_SECRET!, {
-      expiresIn: JWT_EXPIRES,
-   });
+  return jwt.sign({ id }, process.env.JWT_SECRET!, {
+    expiresIn: JWT_EXPIRES,
+  });
 };
 
-// ✅ تسجيل مستخدم جديد
+// تسجيل مستخدم جديد
 export const signup = async (data: any) => {
-   try {
-      await connect();
-      const hashedPassword = await bcrypt.hash(data.password, 10);
-      await User.create({ ...data, password: hashedPassword });
-      return { success: "User created successfully" };
-   } catch (error: any) {
-      console.error(error);
-      return { error: "User creation failed", details: error.message };
-   }
+  try {
+    await connect();
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+    await User.create({ ...data, password: hashedPassword });
+    return { success: "User created successfully" };
+  } catch (error: any) {
+    console.error(error);
+    return { error: "User creation failed", details: error.message };
+  }
 };
 
-// ✅ تسجيل الدخول
+// تسجيل الدخول
 export const login = async (data: { email: string; password: string }) => {
-   try {
-      await connect();
-      const cookieStore = cookies(); // لا تستخدم await هنا
+  try {
+    await connect();
+    
+    const user = await User.findOne({ email: data.email }).select("+password");
+    if (!user) return { error: "User not found" };
 
-      const user = await User.findOne({ email: data.email }).select(
-         "+password"
-      );
-      if (!user) return { error: "User not found" };
+    const isMatch = await bcrypt.compare(data.password, user.password);
+    if (!isMatch) return { error: "Incorrect email or password!" };
 
-      const isMatch = await bcrypt.compare(data.password, user.password);
-      if (!isMatch) return { error: "Incorrect email or password!" };
+    const token = generateToken({ id: user._id });
 
-      const token = generateToken({ id: user._id });
+    // استخدام NextResponse لإنشاء استجابة مع الكوكيز
+    const response = NextResponse.json({ success: "Login successful" });
 
-      // إضافة الكوكيز باستخدام `set-cookie`
-      cookieStore.set("token", token, {
-         httpOnly: true,
-         maxAge: JWT_EXPIRES,
-         sameSite: "lax", // أو "none" إذا كان عندك HTTPS        
-         path: "/",
-         secure: process.env.NODE_ENV === "production", // secure في حالة إذا كنت في بيئة إنتاج         
-      });
+    // تعيين الكوكيز باستخدام NextResponse
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      maxAge: JWT_EXPIRES,
+      path: "/",
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production", // تأكيد الاستخدام الآمن إذا كنت في بيئة إنتاج
+    });
 
-      const userObj = JSON.parse(JSON.stringify(user));
-      return { success: "Login successful", data: userObj };
-   } catch (error: any) {
-      console.error(error);
-      return { error: "Login failed", details: error.message };
-   }
+    return response;
+  } catch (error: any) {
+    console.error(error);
+    return { error: "Login failed", details: error.message };
+  }
 };
 
-// ✅ التحقق من الجلسة
+// التحقق من الجلسة
 export const protect = async () => {
-   const cookieStore = cookies(); // بدون await
-   const token = cookieStore.get("token")?.value;
+  const cookieStore = await cookies(); // تأكد من استخدام await هنا للحصول على القيمة بشكل صحيح
+  const token = cookieStore.get("token")?.value;
 
-   if (!token)
-      return { error: "You are not authorized to perform this action!" };
+  if (!token) {
+    return { error: "You are not authorized to perform this action!" };
+  }
 
-   try {
-      const decode = jwt.verify(token, process.env.JWT_SECRET!) as {
-         id: string;
-      };
-      return { decode };
-   } catch (error) {
-      return { error: "Invalid or expired token!" };
-   }
+  try {
+    const decode = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
+    return { decode };
+  } catch (error) {
+    return { error: "Invalid or expired token!" };
+  }
 };
 
-// ✅ الحصول على بيانات المستخدم
+// الحصول على بيانات المستخدم
 export const getUser = async () => {
-   try {
-      await connect();
-      const { decode, error } = await protect();
+  try {
+    await connect();
+    const { decode, error } = await protect();
 
-      if (error || !decode?.id) {
-         return { error: "You are not authorized to perform this action!" };
-      }
+    if (error || !decode?.id) {
+      return { error: "You are not authorized to perform this action!" };
+    }
 
-      const user = await User.findById(decode.id);
-      if (!user) return { error: "User not found" };
+    const user = await User.findById(decode.id);
+    if (!user) return { error: "User not found" };
 
-      const userObj = JSON.parse(JSON.stringify(user));
-      return { data: userObj };
-   } catch (error) {
-      return { error: "Failed to get user" };
-   }
+    const userObj = JSON.parse(JSON.stringify(user));
+    return { data: userObj };
+  } catch (error) {
+    return { error: "Failed to get user" };
+  }
 };
 
-// ✅ تسجيل الخروج
+// تسجيل الخروج
 export const logout = async () => {
-   try {
-      const cookieStore = cookies(); // بدون await
-      // حذف الكوكيز باستخدام `set-cookie`
-      cookieStore.set("token", {
-         path: "/",
-         sameSite: "lax",
-         secure: process.env.NODE_ENV === "production", // secure في حالة إذا كنت في بيئة إنتاج
-      });
-      return { success: "Logout successful" };
-   } catch (error) {
-      return { error: "Logout failed" };
-   }
+  try {
+    // استخدام NextResponse لإنشاء استجابة مع الكوكيز
+    const response = NextResponse.json({ success: "Logout successful" });
+
+    // تعيين الكوكيز لإزالته عند تسجيل الخروج
+    response.cookies.set("token", "", {
+      httpOnly: true,
+      maxAge: 0, // إزالة الكوكيز
+      path: "/",
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production", // تأكيد الاستخدام الآمن في بيئة الإنتاج
+    });
+
+    return response;
+  } catch (error) {
+    return { error: "Logout failed" };
+  }
 };
+
+
+
+
+
+
+
+
 
 // "use server";
 // import User from "../models/user";
