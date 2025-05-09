@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
-import { NextRequest } from "next/server";
 import connect from "@/lib/connect";
-// إذا كان route.ts داخل app/routes/
-import User from "../../models/user"; // لأن models موجود في مستوى أعلى
+import User from "../../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { serialize } from "cookie";
 
-const JWT_EXPIRES = 90 * 60;
+const JWT_EXPIRES = 90 * 60; // 90 دقيقة
 
 const generateToken = ({ id }: { id: any }) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, {
@@ -14,37 +13,129 @@ const generateToken = ({ id }: { id: any }) => {
   });
 };
 
-export async function POST(req: NextRequest) {
-  await connect();
+export async function POST(req: Request) {
+  try {
+    await connect();
+    console.log("Database connected successfully.");
 
-  const data = await req.json();
-  const user = await User.findOne({ email: data.email }).select("+password");
-  if (!user) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
-  }
+    const data = await req.json();
+    console.log("User data:", data);
 
-  const isMatch = await bcrypt.compare(data.password, user.password);
-  if (!isMatch) {
+    const user = await User.findOne({ email: data.email }).select("+password");
+    if (!user) {
+      console.log("User not found");
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const isMatch = await bcrypt.compare(data.password, user.password);
+    console.log("Password match:", isMatch);
+
+    if (!isMatch) {
+      console.log("Incorrect password");
+      return NextResponse.json({ error: "Incorrect email or password!" }, { status: 401 });
+    }
+
+    const res = NextResponse.json({
+      success: "Login successful",
+      data: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+      },
+    }, { status: 200 });
+
+    const token = generateToken({ id: user._id });
+    const serialized = serialize("token", token, {
+      httpOnly: true,
+      maxAge: JWT_EXPIRES,
+      path: "/",
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    res.headers.set("Set-Cookie", serialized);
+    return res;
+  } catch (error: any) {
+    console.error("Login error:", error);
     return NextResponse.json(
-      { error: "Incorrect email or password!" },
-      { status: 401 }
+      { error: "Something went wrong", details: error.message },
+      { status: 500 }
     );
   }
-
-  const token = generateToken({ id: user._id });
-
-  const response = NextResponse.json(
-    { success: "Login successful", data: user },
-    { status: 200 }
-  );
-
-  response.cookies.set("token", token, {
-    httpOnly: true,
-    maxAge: JWT_EXPIRES,
-    path: "/",
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-  });
-
-  return response;
 }
+
+
+
+
+
+
+
+// import { NextResponse } from "next/server";
+// import type { NextRequest } from "next/server";
+// import connect from "@/lib/connect";
+// import User from "../../models/user";
+// import bcrypt from "bcrypt";
+// import jwt from "jsonwebtoken";
+// import { serialize } from "cookie";
+
+// const JWT_EXPIRES = 90 * 60; // 90 دقيقة
+
+// const generateToken = ({ id }: { id: any }) => {
+//   return jwt.sign({ id }, process.env.JWT_SECRET!, {
+//     expiresIn: JWT_EXPIRES,
+//   });
+// };
+
+// export async function POST(req: NextRequest) {
+//   try {
+//     console.log("API called"); // تتبع ما إذا كانت الدالة قد استُدعيت
+//     await connect(); // تأكد من الاتصال بقاعدة البيانات
+
+//     const data = await req.json(); // استخراج البيانات من الجسم
+//     const user = await User.findOne({ email: data.email }).select("+password");
+    
+//     if (!user) {
+//       return NextResponse.json({ error: "User not found" }, { status: 404 });
+//     }
+
+//     const isMatch = await bcrypt.compare(data.password, user.password);
+//     if (!isMatch) {
+//       return NextResponse.json(
+//         { error: "Incorrect email or password!" },
+//         { status: 401 }
+//       );
+//     }
+
+//     const res = NextResponse.json(
+//       {
+//         success: "Login successful",
+//         data: {
+//           _id: user._id,
+//           email: user.email,
+//           name: user.name,
+//         },
+//       },
+//       { status: 200 }
+//     );
+
+//     const token = generateToken({ id: user._id });
+//     const serialized = serialize("token", token, {
+//       httpOnly: true,
+//       maxAge: JWT_EXPIRES,
+//       path: "/",
+//       sameSite: "lax",
+//       secure: process.env.NODE_ENV === "production",
+//     });
+
+//     res.headers.set("Set-Cookie", serialized);
+
+//     return res;
+//   } catch (error: any) {
+//     console.error("Login error:", error);
+//     return NextResponse.json(
+//       { error: "Something went wrong", details: error.message },
+//       { status: 500 }
+//     );
+//   }
+// }
+

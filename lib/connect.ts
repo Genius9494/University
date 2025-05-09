@@ -3,20 +3,28 @@ import mongoose from "mongoose";
 let isConnected = false;
 
 const connect = async () => {
-  if (isConnected) return;
+  if (isConnected) return; // إذا كان الاتصال قائمًا مسبقًا، لا حاجة لإعادة الاتصال
 
+  // تحقق من وجود متغير البيئة MONGODB_URI
   if (!process.env.MONGODB_URI) {
+    console.error("❌ MONGODB_URI is not defined in the environment variables.");
     throw new Error("MONGODB_URI is not defined");
   }
 
   try {
+    // الاتصال بقاعدة البيانات
+    console.log("Attempting to connect to MongoDB...");
     await mongoose.connect(process.env.MONGODB_URI);
+    
+    // إذا تم الاتصال بنجاح
     isConnected = true;
-    console.log("✅ MongoDB connected");
+    console.log("✅ MongoDB connected successfully.");
   } catch (err) {
+    // إذا فشل الاتصال
     console.error("❌ MongoDB connection error:", err);
-    throw err;
+    throw err; // رمي الخطأ مجددًا لكي يتم التعامل معه في مكان آخر إذا لزم الأمر
   }
 };
 
 export default connect;
+

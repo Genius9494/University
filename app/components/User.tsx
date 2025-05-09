@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import React from "react";
 
@@ -41,7 +42,7 @@ export default User;
 //     formData.append('file', file);
 //     formData.append('upload_preset', 'your_preset'); // استبدل بـ upload preset الخاص بك
 
-//     const res = await fetch('https://api.cloudinary.com/v1_1/your_cloud_name/image/upload', {
+//     const res = await fetch('https://api.cloudinary.com/v1_1/dxaj2hoal/image/upload', {
 //       method: 'POST',
 //       body: formData,
 //     });

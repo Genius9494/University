@@ -6,6 +6,7 @@ interface IImage {
 }
 
 export interface IUser extends Document {
+  _id: mongoose.Types.ObjectId; // <-- أضف هذا السطر
   name: string;
   email: string;
   password: string;
@@ -16,6 +17,7 @@ export interface IUser extends Document {
   bio: string;
   createdAt: Date;
 }
+
 
 const imageSchema = new Schema<IImage>({
   secure_url: { type: String, required: true },
