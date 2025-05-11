@@ -1,23 +1,51 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, XCircle } from "lucide-react";
 import { useWishlsit } from "../context/wishlistContext";
 
 const AddToWishList = ({ gameId, plus }: { gameId: string; plus?: boolean }) => {
   const { handleAddToWishlist, wishlist } = useWishlsit();
-  const isInWishlist = wishlist.includes(gameId)!!;
-  return plus ? (
-    isInWishlist ? (
-      <XCircle onClick={() => handleAddToWishlist(gameId)} />
+  const [loading, setLoading] = useState(false);
+
+  const isInWishlist = wishlist.includes(gameId);
+
+  const toggleWishlist = async () => {
+    setLoading(true);
+    await handleAddToWishlist(gameId);
+    setLoading(false);
+  };
+
+  if (plus) {
+    return isInWishlist ? (
+      <XCircle
+        onClick={toggleWishlist}
+        className="text-red-500 cursor-pointer"
+        title="Remove from Wishlist"
+      />
     ) : (
-      <PlusCircle onClick={() => handleAddToWishlist(gameId)} />
-    )
-  ) : (
-    <Button className=" capitalize" onClick={() => handleAddToWishlist(gameId)}>
-      {isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+      <PlusCircle
+        onClick={toggleWishlist}
+        className="text-green-500 cursor-pointer"
+        title="Add to Wishlist"
+      />
+    );
+  }
+
+  return (
+    <Button
+      className="capitalize"
+      onClick={toggleWishlist}
+      disabled={loading}
+    >
+      {loading
+        ? "Processing..."
+        : isInWishlist
+        ? "Remove from wishlist"
+        : "Add to wishlist"}
     </Button>
   );
 };
 
 export default AddToWishList;
+

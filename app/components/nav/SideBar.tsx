@@ -34,9 +34,11 @@ const SideBar = () => {
       const res = await fetch("/api/logout", { method: "POST" });
       const data = await res.json();
       if ("success" in data || data.message) {
-        toast.success("Logged out successfully");
-        queryClient.invalidateQueries({ queryKey: ["user"] });
-      } else {
+  toast.success("Logged out successfully");
+  queryClient.invalidateQueries({ queryKey: ["user"] });
+  window.location.href = "/login";
+}
+ else {
         toast.error(data.error || "Logout failed");
       }
     } catch {

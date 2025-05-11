@@ -63,7 +63,7 @@ const page = async ({ params }: { params: { id: string } }) => {
     );
   } catch (error) {
     console.error("Error in game page:", error);
-    return <div className="text-red-500 p-4">حدث خطأ أثناء تحميل اللعبة.</div>;
+    return <div className="text-white p-4">حدث خطأ أثناء تحميل اللعبة.</div>;
   }
 };
 

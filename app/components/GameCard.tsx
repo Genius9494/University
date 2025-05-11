@@ -34,7 +34,7 @@ const GameCard = ({ game, images, wishlist = false, screenBig = false }: GameCar
                     alt={name}
                     fill
                     priority
-                    placeholder="blur" // تحسين الأداء
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 ) : (
                   <div className="w-full h-full bg-gray-500">No Image</div> // إذا لم توجد صورة، عرض رسالة بديلة

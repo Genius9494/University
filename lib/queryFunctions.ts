@@ -23,21 +23,24 @@ export const useGetUser = () => {
 
 // Custom Hook: الحصول على الألعاب باستخدام المعرفات
 export const useGetGamesWithIds = (ids: string[]) => {
-  const { data: games, isLoading, isError, error } = useQuery({
-    queryKey: [`games-${ids}`],
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: [`games-${ids.join(",")}`],
     queryFn: async () => {
       try {
-        return await getGamesByIds(ids);
+        const raw = await getGamesByIds(ids);
+        return raw.map((item) => ({
+          ...item.data,
+          short_screenshots: item.screenshots,
+        }));
       } catch (err) {
         console.error("Error fetching games by IDs:", err);
-        throw err; // إعادة الخطأ حتى يتم التعامل معه من قبل `useQuery`
+        throw err;
       }
     },
     enabled: ids.length > 0,
   });
 
-  const validGames = Array.isArray(games) ? games : [];
-  return { games: validGames, isLoading, isError, error };
+  return { games: data || [], isLoading, isError, error };
 };
 
 
