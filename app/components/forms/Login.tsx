@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -11,7 +12,8 @@ import MaxWidthWrapper from "../defaults/MaxWidthWrapper";
 import Logo from "../defaults/Logo";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email" }),
@@ -19,6 +21,8 @@ const loginSchema = z.object({
 });
 
 const Login = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -29,10 +33,9 @@ const Login = () => {
 
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = (data: z.infer<typeof loginSchema>) => {
+  const handleLoginSubmit = (data: z.infer<typeof loginSchema>) => {
     startTransition(async () => {
       try {
-        // إرسال البيانات إلى API تسجيل الدخول
         const res = await fetch("/api/login", {
           method: "POST",
           headers: {
@@ -41,23 +44,15 @@ const Login = () => {
           body: JSON.stringify(data),
         });
 
-        // التحقق من استجابة الـ API
         const result = await res.json();
-
-        if (res.ok) {
-          // في حالة النجاح
-          if (result.success) {
-            toast.success(result.success);
-            redirect("/"); // إعادة التوجيه إلى الصفحة الرئيسية أو الصفحة المناسبة
-          } else {
-            toast.error(result.error || "Login failed");
-          }
+        if (res.ok && result.success) {
+          toast.success(result.success);
+          await queryClient.invalidateQueries({ queryKey: ["user"] });
+          router.push("/"); // ✅ التوجيه إلى الصفحة الرئيسية
         } else {
-          // في حالة حدوث خطأ في استجابة الـ API
-          toast.error(result.error || "Something went wrong. Please try again.");
+          toast.error(result.error || "Login failed");
         }
       } catch (error) {
-        // التعامل مع أي خطأ يحدث أثناء الاتصال بـ API
         console.error("Login error:", error);
         toast.error("Something went wrong, please try again.");
       }
@@ -65,11 +60,17 @@ const Login = () => {
   };
 
   return (
-    <MotionItem animate={{ opacity: 1, y: 0, transition: { duration: 1 } }} initial={{ opacity: 0, y: 100 }}>
-      <MaxWidthWrapper customPadding={" py-14"} className="flex flex-col gap-4 items-center w-full bg-slate-900 rounded-2xl border border-input">
+    <MotionItem
+      animate={{ opacity: 1, y: 0, transition: { duration: 1 } }}
+      initial={{ opacity: 0, y: 100 }}
+    >
+      <MaxWidthWrapper
+        customPadding="py-14"
+        className="flex flex-col gap-4 items-center w-full bg-slate-900 rounded-2xl border border-input"
+      >
         <Logo />
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full flex-col gap-10">
+          <form onSubmit={form.handleSubmit(handleLoginSubmit)} className="flex w-full flex-col gap-10">
             <FormInput name="email" label="Email" type="text" />
             <FormInput name="password" label="Password" type="password" />
             <Button disabled={isPending} type="submit">
@@ -79,7 +80,7 @@ const Login = () => {
         </Form>
         <div className="capitalize text-base font-semibold flex items-center gap-2">
           <p className="text-gray-50">Do not have an account ?!</p>
-          <Link className="text-yellow-300 hover:underline" href={"/signup"}>
+          <Link className="text-yellow-300 hover:underline" href="/signup">
             Register With Us Now !
           </Link>
         </div>
@@ -89,6 +90,8 @@ const Login = () => {
 };
 
 export default Login;
+
+
 
 
 

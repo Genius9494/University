@@ -16,33 +16,23 @@ const generateToken = ({ id }: { id: any }) => {
 export async function POST(req: Request) {
   try {
     await connect();
-    console.log("Database connected successfully.");
+    console.log("✅ Database connected.");
 
     const data = await req.json();
-    console.log("User data:", data);
+    console.log("📥 Received data:", data);
 
     const user = await User.findOne({ email: data.email }).select("+password");
+
     if (!user) {
-      console.log("User not found");
+      console.log("❌ User not found");
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const isMatch = await bcrypt.compare(data.password, user.password);
-    console.log("Password match:", isMatch);
-
     if (!isMatch) {
-      console.log("Incorrect password");
+      console.log("❌ Incorrect password");
       return NextResponse.json({ error: "Incorrect email or password!" }, { status: 401 });
     }
-
-    const res = NextResponse.json({
-      success: "Login successful",
-      data: {
-        _id: user._id,
-        email: user.email,
-        name: user.name,
-      },
-    }, { status: 200 });
 
     const token = generateToken({ id: user._id });
     const serialized = serialize("token", token, {
@@ -53,16 +43,33 @@ export async function POST(req: Request) {
       secure: process.env.NODE_ENV === "production",
     });
 
-    res.headers.set("Set-Cookie", serialized);
-    return res;
+    const body = JSON.stringify({
+      success: "Login successful",
+      data: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+      },
+    });
+
+    const response = new Response(body, {
+      status: 200,
+      headers: {
+        "Set-Cookie": serialized,
+        "Content-Type": "application/json",
+      },
+    });
+
+    return response;
   } catch (error: any) {
-    console.error("Login error:", error);
+    console.error("❌ Login error:", error);
     return NextResponse.json(
       { error: "Something went wrong", details: error.message },
       { status: 500 }
     );
   }
 }
+
 
 
 

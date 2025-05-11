@@ -1,16 +1,17 @@
 "use server";
-
+import mongoose from "mongoose";
 import User from "../models/user";
 import connect from "./connet";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
+import { cookies } from "next/headers"; 
 import { NextResponse } from "next/server";
 
-const JWT_EXPIRES = 90 * 60; // 90 دقيقة
+// ثابت منتهي الصلاحية (90 دقيقة)
+const JWT_EXPIRES = 90 * 60; 
 
-// توليد التوكن
-const generateToken = ({ id }: { id: string}) => {
+// ✅ توليد التوكن
+const generateToken = ({ id }: { id: string }) => {
   return jwt.sign({ id }, process.env.JWT_SECRET as string, {
     expiresIn: JWT_EXPIRES,
   });
@@ -28,15 +29,11 @@ export const signup = async (data: { email: string; password: string; name: stri
   }
 };
 
-// ✅ تسجيل الدخول
-
-
 // ✅ التحقق من الجلسة
 export const protect = async () => {
   try {
-    const response = NextResponse.json({ success: "Login successful" });
-
-    const token = response.cookies.get("token")?.value;
+    const cookieStore = await cookies(); 
+    const token = cookieStore.get("token")?.value;
 
     if (!token) {
       return { error: "You are not authorized to perform this action!" };
@@ -50,6 +47,7 @@ export const protect = async () => {
 };
 
 // ✅ الحصول على بيانات المستخدم
+// ✅ الحصول على بيانات المستخدم
 export const getUser = async () => {
   try {
     await connect();
@@ -59,17 +57,29 @@ export const getUser = async () => {
       return { error: "You are not authorized to perform this action!" };
     }
 
-    const user = await User.findById(decode.id).lean(); // ✅ lean لإرجاع object عادي بدون prototype
+    const user = await User.findById(decode.id).lean(); // نحصل على كائن بسيط
     if (!user) return { error: "User not found" };
 
-    // حذف كلمة المرور بطريقة آمنة
-    const { password: _, ...userWithoutPassword } = user;
+    // ✅ نحذف أو نحول كل ObjectId
+    const cleanUser = {
+      ...user,
+      _id: user._id.toString(),
+      avatar: {
+        ...user.avatar,
+        _id: user.avatar && "_id" in user.avatar ? (user.avatar as any)._id.toString() : undefined,
+      },
+    };
+    
+
+    // نحذف الخصائص غير الضرورية مثل password و __v
+    const { password: _, __v, ...userWithoutPassword } = cleanUser;
 
     return { data: userWithoutPassword };
   } catch (error) {
     return { error: "Failed to get user" };
   }
 };
+
 
 // ✅ تسجيل الخروج
 export const logout = async () => {
@@ -89,6 +99,15 @@ export const logout = async () => {
     return { error: "Logout failed" };
   }
 };
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { getUser } from "@/app/actions/auth";
 import { getGamesByIds, searchGames } from "@/app/api/api";
 import { useQuery } from "@tanstack/react-query";
@@ -38,6 +39,7 @@ export const useGetGamesWithIds = (ids: string[]) => {
   const validGames = Array.isArray(games) ? games : [];
   return { games: validGames, isLoading, isError, error };
 };
+
 
 // Custom Hook: البحث عن الألعاب باستخدام استعلامات متعددة
 export const useGetGames = ({

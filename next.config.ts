@@ -1,23 +1,15 @@
-import type { NextConfig } from "next";
+// next.config.ts
+import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "media.rawg.io",  // تحديد نطاق موثوق به
-        pathname: "/**", // يسمح بالتحميل من جميع المسارات
-      },
-      {
-        protocol: "https",
-        hostname: "example.com",  // إضافة نطاقات أخرى حسب الحاجة
-        pathname: "/**",
-      },
-    ],
+    domains: ['res.cloudinary.com', 'media.rawg.io', 'example.com'],
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true,  // إذا كنت بحاجة لتجاهل أخطاء البناء في TypeScript
+  },
+  env: {
+    MONGO_URI: process.env.MONGO_URI || '',  // تأكد من أن البيئة محددة بشكل صحيح
   },
 };
 

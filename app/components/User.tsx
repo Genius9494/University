@@ -1,31 +1,41 @@
-"use client"
+"use client";
 import Image from "next/image";
 import React from "react";
+import { useGetUser } from "@/lib/queryFunctions";
 
-const User = ({ user }: { user: { name: string; avatar: { secure_url: string } } }) => {
-  if (!user?.avatar?.secure_url) return null;
+const User = () => {
+  const { user, isLoading, isError } = useGetUser();
+
+  if (isLoading) return null;
+
+  if (isError || !user?.data?.avatar?.secure_url || !user?.data?.name) {
+    return null;
+  }
 
   return (
     <div className="cursor-pointer flex items-center gap-3">
       <div className="w-14 h-14 relative rounded-full overflow-hidden">
-        
         <Image
           fill
-          src={user.avatar.secure_url}
-          alt={user.name}
+          src={user.data.avatar.secure_url}
+          alt={user.data.name}
           className="object-cover"
           priority
           sizes="(max-width: 768px) 100vw, 50vw"
-          
         />
       </div>
-      <h1 className="text-base text-white">{user.name}</h1>
+      <h1 className="text-base text-white">{user.data.name}</h1>
     </div>
-    
   );
 };
 
 export default User;
+
+
+
+
+
+
 // 'use client';
 // import React, { useState } from 'react';
 // import Image from 'next/image';

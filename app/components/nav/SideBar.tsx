@@ -16,41 +16,13 @@ import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const NAV_LINKS = [
-  {
-    link: "/",
-    label: "Home",
-    icon: <SiHomebridge />,
-  },
-  {
-    link: "/category",
-    label: "Category",
-    icon: <MdCategory />,
-  },
-  {
-    link: "/games",
-    label: "Games",
-    icon: <IoGameController />,
-  },
-  {
-    link: "/wishlist",
-    label: "Wishlist",
-    icon: <GiRoyalLove />,
-  },
-  {
-    link: "/distinct",
-    label: "Distinct",
-    icon: <FiAward />,
-  },
-  {
-    link: "/ratings",
-    label: "Ratings",
-    icon: <FiActivity />,
-  },
-  {
-    link: "/famous",
-    label: "Famous",
-    icon: <FiFeather />,
-  },
+  { link: "/", label: "Home", icon: <SiHomebridge /> },
+  { link: "/category", label: "Category", icon: <MdCategory /> },
+  { link: "/games", label: "Games", icon: <IoGameController /> },
+  { link: "/wishlist", label: "Wishlist", icon: <GiRoyalLove /> },
+  { link: "/distinct", label: "Distinct", icon: <FiAward /> },
+  { link: "/ratings", label: "Ratings", icon: <FiActivity /> },
+  { link: "/famous", label: "Famous", icon: <FiFeather /> },
 ];
 
 const SideBar = () => {
@@ -61,8 +33,8 @@ const SideBar = () => {
     try {
       const res = await fetch("/api/logout", { method: "POST" });
       const data = await res.json();
-      if ("success" in data) {
-        toast.success(data.success);
+      if ("success" in data || data.message) {
+        toast.success("Logged out successfully");
         queryClient.invalidateQueries({ queryKey: ["user"] });
       } else {
         toast.error(data.error || "Logout failed");
@@ -76,17 +48,40 @@ const SideBar = () => {
     <div className="col-span-2">
       <div className="py-5 px-7 h-screen sticky inset-0 flex flex-col items-start bg-black/30 text-gray-50">
         <Logo />
+
+        {/* ✅ ملف المستخدم بعد تسجيل الدخول */}
+        {isLoading ? (
+          <div className="w-full mb-6 mt-4 space-y-2">
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <Skeleton className="h-4 w-[120px]" />
+          </div>
+        ) : user?.data ? (
+          <div className="w-full flex items-center gap-3 mb-6 mt-4">
+            <img
+              src="/avatar.png"
+              alt="User"
+              className="w-10 h-10 rounded-full border border-white"
+            />
+            <div>
+              <p className="font-bold text-white text-lg">Genius</p>
+              <p className="text-sm text-gray-400">{user.data.email}</p>
+            </div>
+          </div>
+        ) : null}
+
+        {/* روابط التنقل */}
         {NAV_LINKS.map((navLink, i) => (
           <NavLink key={i} navLink={navLink} />
         ))}
 
+        {/* إعدادات وخروج */}
         {isLoading ? (
           <div className="mt-auto space-y-2">
             <Skeleton className="h-4 w-[130px]" />
             <Skeleton className="h-4 w-[100px]" />
           </div>
         ) : user?.data ? (
-          <div className="mt-auto space-y-2">
+          <div className="mt-auto w-full space-y-2">
             <NavLink
               navLink={{
                 link: "/settings",
@@ -94,7 +89,7 @@ const SideBar = () => {
                 icon: <Settings />,
               }}
             />
-            <Button onClick={handleLogout} variant="destructive">
+            <Button onClick={handleLogout} variant="destructive" className="w-full">
               Logout
             </Button>
           </div>
@@ -105,3 +100,4 @@ const SideBar = () => {
 };
 
 export default SideBar;
+
