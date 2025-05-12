@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getGame } from "@/app/api/api";
 import GamesSlider from "@/app/components/GamesSlider";
 import SwiperCards from "@/app/components/SwiperCards";
+import { Game } from "@/types"
 
 const page = async ({ params }: { params: { id: string } }) => {
   try {

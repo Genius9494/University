@@ -4,15 +4,15 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle, XCircle } from "lucide-react";
 import { useWishlsit } from "../context/wishlistContext";
 
-const AddToWishList = ({ gameId, plus }: { gameId: string; plus?: boolean }) => {
+const AddToWishList = ({ gameId, plus }: { gameId: string; plus?: boolean}) => {
   const { handleAddToWishlist, wishlist } = useWishlsit();
   const [loading, setLoading] = useState(false);
 
   const isInWishlist = wishlist.includes(gameId);
 
-  const toggleWishlist = async () => {
+  const toggleWishlist = () => {
     setLoading(true);
-    await handleAddToWishlist(gameId);
+    handleAddToWishlist(gameId);
     setLoading(false);
   };
 
@@ -20,14 +20,14 @@ const AddToWishList = ({ gameId, plus }: { gameId: string; plus?: boolean }) => 
     return isInWishlist ? (
       <XCircle
         onClick={toggleWishlist}
-        className="text-red-500 cursor-pointer"
-        title="Remove from Wishlist"
+        className="text-red-500 cursor-pointer" 
+        aria-label="Remove from Wishlist"
       />
     ) : (
       <PlusCircle
         onClick={toggleWishlist}
         className="text-green-500 cursor-pointer"
-        title="Add to Wishlist"
+        aria-label="Add to Wishlist"
       />
     );
   }

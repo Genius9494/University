@@ -5,19 +5,72 @@ import React from "react";
 import { FaPlaystation, FaXbox, FaSteam } from "react-icons/fa";
 import ImageSwitcher from "./ImageSwitcher";
 import AddToWishList from "./AddToWishList";
+import { Game } from "@/types"
+
+// type Game = {
+//     id: number;
+//     name: string;
+//     background_image: string;
+//     rating?: number;
+//     released?: string;
+//     parent_platforms?: { platform: { slug: string } }[];
+//     slug?: string;
+//     tba?: boolean;
+//     rating_top?: number;
+//     ratings?: any[];
+//     ratings_count?: number;
+//     reviews_text_count?: number;
+//     added?: number;
+//     added_by_status?: any;
+//     description_raw?: string | null;  // تعيين القيم الافتراضية
+//     metacritic?: number | null;       // تعيين القيم الافتراضية
+//     playtime?: number | null;         // تعيين القيم الافتراضية
+//     suggestions_count?: number | null; // تعيين القيم الافتراضية 
+//   };
+  
+  
+
 
 type GameCardProps = {
   game: Game;
-  images?: any[]; // يمكنك تخصيص النوع حسب نوع بيانات الصور
+  images?: { image: string }[];
   wishlist?: boolean;
   screenBig?: boolean;
 };
 
-const GameCard = ({ game, images, wishlist = false, screenBig = false }: GameCardProps) => {
-  if (!game) return null; // تحقق من وجود البيانات
+// STARS
+const renderStars = (rating: number) => {
+  const fullStars = Math.floor(rating);
+  const stars = [];
+  for (let i = 0; i < 5; i++) {
+    stars.push(
+      <span key={i} className="text-yellow-400 text-sm">
+        {i < fullStars ? "★" : "☆"}
+      </span>
+    );
+  }
+  return stars;
+};
 
-  // استخراج البيانات بأمان
-  const { background_image, name, id, parent_platforms } = game;
+const GameCard = ({ game, images, wishlist = false }: GameCardProps) => {
+  if (!game) return null;
+
+  const {
+    background_image,
+    name,
+    id,
+    parent_platforms = [],
+    rating = 0,
+    released = "Unknown",
+    slug = "default-slug",
+    tba = false,
+    rating_top = 0,
+    ratings = [],
+    ratings_count = 0,  // تعيين قيمة افتراضية
+    reviews_text_count = 0,  // تعيين قيمة افتراضية
+    added = 0,  // تعيين قيمة افتراضية
+  } = game;
+
   const platforms = parent_platforms?.map((platformObj) => platformObj.platform.slug);
 
   return (
@@ -26,8 +79,13 @@ const GameCard = ({ game, images, wishlist = false, screenBig = false }: GameCar
         <HoverCardTrigger className="relative cursor-pointer w-full" asChild>
           <div>
             <div className="relative flex flex-col gap-2">
+              {wishlist && (
+                <div className="absolute left-2 top-2 z-10">
+                  <AddToWishList plus gameId={id.toString()} />
+                </div>
+              )}
               <div className="hover:opacity-80 duration-150 w-full overflow-hidden h-64 relative rounded-xl">
-                {background_image ? ( // تحقق من وجود صورة الخلفية
+                {background_image ? (
                   <Image
                     className="object-cover"
                     src={background_image}
@@ -37,7 +95,9 @@ const GameCard = ({ game, images, wishlist = false, screenBig = false }: GameCar
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gray-500">No Image</div> // إذا لم توجد صورة، عرض رسالة بديلة
+                  <div className="w-full h-full bg-gray-500 flex items-center justify-center text-white text-xs">
+                    No Image Available
+                  </div>
                 )}
               </div>
               <Link
@@ -46,14 +106,26 @@ const GameCard = ({ game, images, wishlist = false, screenBig = false }: GameCar
               >
                 {name}
               </Link>
+              
+              {/* stars */}
+              <div className="flex items-center gap-1">
+                {renderStars(rating)}
+                <span className="text-xs text-gray-300 ml-1">{rating.toFixed(1) || "N/A"}</span>
+              </div>
+              {/* stars// */}
+
+              <p className="text-xs text-gray-300">
+                Released: <span className="font-medium">{released}</span>
+              </p>
+              
               <div className="mt-2 flex items-center gap-1">
                 {platforms?.map((slug, i) => {
                   if (slug === "pc") {
-                    return <FaSteam key={`platform-pc-${i}`} />;
+                    return <FaSteam key={i} title="PC" />;
                   } else if (slug.includes("playstation")) {
-                    return <FaPlaystation key={`platform-playstation-${i}`} className="text-blue-500" />;
+                    return <FaPlaystation key={i} className="text-blue-500" title="PlayStation" />;
                   } else if (slug.includes("xbox")) {
-                    return <FaXbox key={`platform-xbox-${i}`} className="text-green-500" />;
+                    return <FaXbox key={i} className="text-green-500" title="Xbox" />;
                   }
                   return null;
                 })}
@@ -62,18 +134,17 @@ const GameCard = ({ game, images, wishlist = false, screenBig = false }: GameCar
           </div>
         </HoverCardTrigger>
 
-        {wishlist && (
-          <div className="absolute left-2 z-10 cursor-pointer top-2">
-            <AddToWishList plus gameId={id.toString()} />
-          </div>
-        )}
+        <HoverCardContent align="center" className="w-full bg-transparent border-none">
+          {images && images.length > 0 && <ImageSwitcher game={game} images={images} />}
+        </HoverCardContent>
       </div>
-
-      <HoverCardContent align="center" className="w-full bg-transparent border-none">
-        {images && images.length > 0 && <ImageSwitcher game={game} images={images} />}
-      </HoverCardContent>
     </HoverCard>
   );
 };
 
+
+
 export default GameCard;
+
+
+

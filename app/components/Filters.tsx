@@ -6,6 +6,7 @@ import GameSkeleton from "./GameSkeleton";
 import GameCard from "./GameCard";
 import Empty from "./defaults/Empty";
 import { PaginationCustom } from "./PaginationCustom";
+import { Game } from "@/types"
 
 const Filters = ({ generes }: { generes: any[] }) => {
   const [page, setPage] = useState(1);

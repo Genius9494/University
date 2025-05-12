@@ -1,10 +1,12 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { Game } from "@/types"
 
+// تعريف ImageSwitcherProps
 type ImageSwitcherProps = {
-  game: Game;
-  images: { image: string }[]; // يُفترض أن كل عنصر له مفتاح `image`
+  game: Game; 
+  images: { image: string }[]; 
 };
 
 const ImageSwitcher = ({ game, images }: ImageSwitcherProps) => {
@@ -12,12 +14,14 @@ const ImageSwitcher = ({ game, images }: ImageSwitcherProps) => {
 
   if (!images || images.length === 0) return null;
 
+  const { name = "Unknown", description_raw = "", metacritic = null } = game;
+
   return (
     <div className="flex flex-col gap-2">
       <div className="relative w-full h-64 rounded-xl overflow-hidden">
         <Image
           src={images[activeIndex].image}
-          alt={`${game.name} screenshot ${activeIndex + 1}`}
+          alt={`${name} screenshot ${activeIndex + 1}`}
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
@@ -46,6 +50,11 @@ const ImageSwitcher = ({ game, images }: ImageSwitcherProps) => {
 };
 
 export default ImageSwitcher;
+
+
+
+
+
 
 
 

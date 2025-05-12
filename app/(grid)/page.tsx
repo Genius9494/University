@@ -2,6 +2,7 @@ import { getGamesByIds, searchGames } from "../api/api";
 import GamesSlider from "../components/GamesSlider";
 import Hero from "../components/Hero";
 
+
 export default async function Home() {
   const data = await searchGames("", 2, [], 9);
 
@@ -17,7 +18,7 @@ export default async function Home() {
 
   const { results } = data.data;
   const customGames = await getGamesByIds(["799265", "58550", "2462", "494384", "452642", "452634"]);
-
+  
   return (
     <section>
       <Hero />

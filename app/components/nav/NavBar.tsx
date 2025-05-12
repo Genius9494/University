@@ -27,13 +27,12 @@ const NavBar = () => {
       <header className="flex justify-between items-center">
         <Search />
         {isError ? (
-          // إذا حدث خطأ في تحميل البيانات، اعرض رسالة خطأ
+          
           <div>حدث خطأ أثناء تحميل بيانات المستخدم. حاول مرة أخرى.</div>
         ) : user?.data ? (
-          // عرض بيانات المستخدم عندما تكون موجودة
           <User />
         ) : (
-          // إذا كان المستخدم غير موجود، اعرض أزرار التسجيل وتسجيل الدخول
+          
           <div className="flex items-center gap-2">
             <ButtonGame link="/login" text="Login" />
             <ButtonGame link="/signup" text="Sign up" />

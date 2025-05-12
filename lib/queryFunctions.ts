@@ -1,11 +1,10 @@
 "use client";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useQuery } from "@tanstack/react-query";
 import { getUser } from "@/app/actions/auth";
 import { getGamesByIds, searchGames } from "@/app/api/api";
-import { useQuery } from "@tanstack/react-query";
 
-// Custom Hook: الحصول على بيانات المستخدم
+// 📌 Hook: الحصول على بيانات المستخدم
 export const useGetUser = () => {
   const { data: user, isLoading, isError, error } = useQuery({
     queryKey: ["user"],
@@ -14,14 +13,15 @@ export const useGetUser = () => {
         return await getUser();
       } catch (err) {
         console.error("Error fetching user:", err);
-        throw err; // إعادة الخطأ حتى يتم التعامل معه من قبل `useQuery`
+        throw err;
       }
     },
   });
+
   return { user, isLoading, isError, error };
 };
 
-// Custom Hook: الحصول على الألعاب باستخدام المعرفات
+// 📌 Hook: الحصول على ألعاب عبر معرفات متعددة
 export const useGetGamesWithIds = (ids: string[]) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: [`games-${ids.join(",")}`],
@@ -43,8 +43,7 @@ export const useGetGamesWithIds = (ids: string[]) => {
   return { games: data || [], isLoading, isError, error };
 };
 
-
-// Custom Hook: البحث عن الألعاب باستخدام استعلامات متعددة
+// 📌 Hook: البحث عن الألعاب أو عرض ألعاب عامة بفلترة اختيارية
 export const useGetGames = ({
   query = "",
   page = 1,
@@ -59,20 +58,21 @@ export const useGetGames = ({
   isDisabled?: boolean;
 }) => {
   const { data: games, isLoading, isError, error } = useQuery({
-    queryKey: [`games-${page}-${JSON.stringify(filters)}-${query}`],
+    queryKey: ["games", page, filters, query],
     queryFn: async () => {
       try {
         return await searchGames(query, page, filters, pageSize);
       } catch (err) {
         console.error("Error searching for games:", err);
-        throw err; // إعادة الخطأ حتى يتم التعامل معه من قبل `useQuery`
+        throw err;
       }
     },
-    enabled: !isDisabled && query.length > 0,
+    enabled: !isDisabled, // ✅ التفعيل دائم إلا إذا تم التعطيل يدويًا
   });
 
   return { games, isLoading, isError, error };
 };
+
 
 
 

@@ -51,7 +51,7 @@ const SideBar = () => {
       <div className="py-5 px-7 h-screen sticky inset-0 flex flex-col items-start bg-black/30 text-gray-50">
         <Logo />
 
-        {/* ✅ ملف المستخدم بعد تسجيل الدخول */}
+        {/* ✅ بعد تسجيل الدخول */}
         {isLoading ? (
           <div className="w-full mb-6 mt-4 space-y-2">
             <Skeleton className="h-10 w-10 rounded-full" />
@@ -63,6 +63,9 @@ const SideBar = () => {
               src="/avatar.png"
               alt="User"
               className="w-10 h-10 rounded-full border border-white"
+              width={40}
+              height={40}
+              
             />
             <div>
               <p className="font-bold text-white text-lg">Genius</p>
@@ -71,12 +74,12 @@ const SideBar = () => {
           </div>
         ) : null}
 
-        {/* روابط التنقل */}
+        
         {NAV_LINKS.map((navLink, i) => (
           <NavLink key={i} navLink={navLink} />
         ))}
 
-        {/* إعدادات وخروج */}
+        
         {isLoading ? (
           <div className="mt-auto space-y-2">
             <Skeleton className="h-4 w-[130px]" />

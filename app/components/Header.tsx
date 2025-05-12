@@ -33,7 +33,7 @@ const Header = () => {
     <header className="w-full p-4 flex justify-between items-center bg-slate-400 text-yellow-400 shadow-md">
       <div className="flex items-center gap-3">
         <img
-          src="/avatar.png" // أو user.avatar إذا كان لديك صورة للمستخدم
+          src="/avatar.jpg" // أو user.avatar إذا كان لديك صورة للمستخدم
           alt="User"
           className="w-10 h-10 rounded-full border border-white"
         />
