@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Heading from "./Heading";
 import AddToWishList from "./AddToWishList";
+import { Game } from "@/types";
 
 const GamesSlider = ({
   games,

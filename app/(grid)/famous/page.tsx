@@ -1,11 +1,13 @@
 "use client";
-import { Game } from "@/types"
+
 import React from "react";
+import { Game, normalizeGame } from "@/types";
 import GridContainer from "../../components/defaults/GridContainer";
 import GameCard from "../../components/GameCard";
 
 
-const famousGames = [
+
+const famousGames: Partial<Game>[] = [
   {
     id: 1,
     name: "The Witcher 3: Wild Hunt",
@@ -13,10 +15,11 @@ const famousGames = [
     rating: 4.8,
     released: "2015-05-18",
     parent_platforms: [
-      { platform: { slug: "pc" } },
-      { platform: { slug: "playstation" } },
-      { platform: { slug: "xbox" } },
+      { platform: { slug: "pc", id: 1, name: "PC" } },
+      { platform: { slug: "playstation", id: 2, name: "PlayStation" } },
+      { platform: { slug: "xbox", id: 3, name: "Xbox" } },
     ],
+    price: 1999,
   },
   {
     id: 2,
@@ -25,10 +28,11 @@ const famousGames = [
     rating: 4.7,
     released: "2018-10-26",
     parent_platforms: [
-      { platform: { slug: "pc" } },
-      { platform: { slug: "playstation" } },
-      { platform: { slug: "xbox" } },
+      { platform: { slug: "pc", id: 1, name: "PC" } },
+      { platform: { slug: "playstation", id: 2, name: "PlayStation" } },
+      { platform: { slug: "xbox", id: 3, name: "Xbox" } },
     ],
+    price: 2099,
   },
   {
     id: 3,
@@ -37,10 +41,11 @@ const famousGames = [
     rating: 4.6,
     released: "2013-09-17",
     parent_platforms: [
-      { platform: { slug: "pc" } },
-      { platform: { slug: "playstation" } },
-      { platform: { slug: "xbox" } },
+      { platform: { slug: "pc", id: 1, name: "PC" } },
+      { platform: { slug: "playstation", id: 2, name: "PlayStation" } },
+      { platform: { slug: "xbox", id: 3, name: "Xbox" } },
     ],
+    price: 5969,
   },
 ];
 
@@ -49,12 +54,15 @@ const FamousGamesPage = () => {
     <section className="p-6">
       <h1 className="text-3xl font-bold mb-4 text-yellow-400">🔥 Famous Games</h1>
       <GridContainer cols={3} className="gap-4">
-        {famousGames.map((game) => (
-          <GameCard key={game.id} game={game} screenBig={false} wishlist />
-        ))}
+        {famousGames.map((data) => {
+          const game: Game = normalizeGame(data);
+          return <GameCard key={game.id} game={game} screenBig={false} wishlist />;
+        })}
       </GridContainer>
     </section>
   );
 };
 
 export default FamousGamesPage;
+
+

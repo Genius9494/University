@@ -5,7 +5,10 @@ import React from "react";
 import { FaPlaystation, FaXbox, FaSteam } from "react-icons/fa";
 import ImageSwitcher from "./ImageSwitcher";
 import AddToWishList from "./AddToWishList";
-import { Game } from "@/types"
+import { Game, normalizeGame } from "@/types";
+import BuyButton from "./BuyButton";
+
+
 
 // type Game = {
 //     id: number;
@@ -52,8 +55,14 @@ const renderStars = (rating: number) => {
   return stars;
 };
 
-const GameCard = ({ game, images, wishlist = false }: GameCardProps) => {
+// const GameCard = ({ game, images, wishlist = false }: GameCardProps) => {
+//   if (!game) return null;
+
+const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) => {
+  const game = normalizeGame(rawGame);
+
   if (!game) return null;
+
 
   const {
     background_image,
@@ -66,9 +75,9 @@ const GameCard = ({ game, images, wishlist = false }: GameCardProps) => {
     tba = false,
     rating_top = 0,
     ratings = [],
-    ratings_count = 0,  // تعيين قيمة افتراضية
-    reviews_text_count = 0,  // تعيين قيمة افتراضية
-    added = 0,  // تعيين قيمة افتراضية
+    ratings_count = 0,  
+    reviews_text_count = 0,  
+    added = 0,  
   } = game;
 
   const platforms = parent_platforms?.map((platformObj) => platformObj.platform.slug);
@@ -117,6 +126,8 @@ const GameCard = ({ game, images, wishlist = false }: GameCardProps) => {
               <p className="text-xs text-gray-300">
                 Released: <span className="font-medium">{released}</span>
               </p>
+              <BuyButton name={name} price={game.price} />
+
               
               <div className="mt-2 flex items-center gap-1">
                 {platforms?.map((slug, i) => {
