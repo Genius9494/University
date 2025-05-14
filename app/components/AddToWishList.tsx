@@ -2,10 +2,10 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PlusCircle, XCircle } from "lucide-react";
-import { useWishlsit } from "../context/wishlistContext";
+import { useWishlist } from "../context/wishlistContext";
 
 const AddToWishList = ({ gameId, plus }: { gameId: string; plus?: boolean}) => {
-  const { handleAddToWishlist, wishlist } = useWishlsit();
+  const { handleAddToWishlist, wishlist } = useWishlist();
   const [loading, setLoading] = useState(false);
 
   const isInWishlist = wishlist.includes(gameId);

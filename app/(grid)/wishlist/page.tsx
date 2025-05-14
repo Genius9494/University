@@ -6,12 +6,12 @@ import GridContainer from "@/app/components/defaults/GridContainer";
 import GameCard from "@/app/components/GameCard";
 import GameSkeleton from "@/app/components/GameSkeleton";
 import Heading from "@/app/components/Heading";
-import { useWishlsit } from "@/app/context/wishlistContext";
+import { useWishlist } from "@/app/context/wishlistContext";  // تم تصحيح الاسم هنا
 import { useGetGamesWithIds } from "@/lib/queryFunctions";
 import React from "react";
 
 const Page = () => {
-  const { wishlist } = useWishlsit();
+  const { wishlist } = useWishlist();  // تم تصحيح الاسم هنا
   const { games, isLoading } = useGetGamesWithIds(wishlist);
 
   useEffect(() => {
@@ -46,4 +46,3 @@ const Page = () => {
 };
 
 export default Page;
-
