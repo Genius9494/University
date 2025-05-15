@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe('your-secret-key-here', {
-  apiVersion: '2022-11-15',
 });
 
 export async function POST(request: Request) {
@@ -50,7 +49,7 @@ export async function POST(request: Request) {
     console.error("Error during checkout session creation:", error);
 
     return NextResponse.json(
-      { error: 'Failed to create checkout session', details: error.message },
+      { error: 'Failed to create checkout session', details: error },
       { status: 500 }
     );
   }
