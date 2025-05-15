@@ -8,32 +8,7 @@ import AddToWishList from "./AddToWishList";
 import { Game, normalizeGame } from "@/types";
 import BuyButton from "./BuyButton";
 
-
-
-// type Game = {
-//     id: number;
-//     name: string;
-//     background_image: string;
-//     rating?: number;
-//     released?: string;
-//     parent_platforms?: { platform: { slug: string } }[];
-//     slug?: string;
-//     tba?: boolean;
-//     rating_top?: number;
-//     ratings?: any[];
-//     ratings_count?: number;
-//     reviews_text_count?: number;
-//     added?: number;
-//     added_by_status?: any;
-//     description_raw?: string | null;  // تعيين القيم الافتراضية
-//     metacritic?: number | null;       // تعيين القيم الافتراضية
-//     playtime?: number | null;         // تعيين القيم الافتراضية
-//     suggestions_count?: number | null; // تعيين القيم الافتراضية 
-//   };
   
-  
-
-
 type GameCardProps = {
   game: Game;
   images?: { image: string }[];
@@ -110,7 +85,7 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
                 )}
               </div>
               <Link
-                href={`/game/${id}`}
+                href={`/game/${game.id}`}
                 className="text-sm line-clamp-1 font-semibold text-white"
               >
                 {name}
@@ -127,7 +102,7 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
                 Released: <span className="font-medium">{released}</span>
               </p>
               <BuyButton name={name} price={game.price} />
-
+              
               
               <div className="mt-2 flex items-center gap-1">
                 {platforms?.map((slug, i) => {
@@ -151,7 +126,8 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
       </div>
     </HoverCard>
   );
-};
+};              
+
 
 
 

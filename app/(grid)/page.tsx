@@ -4,20 +4,20 @@ import Hero from "../components/Hero";
 
 
 export default async function Home() {
-  const data = await searchGames("", 2, [], 9);
+  const data = await searchGames("", 2, [], 50);
 
   const ps5 = await searchGames("", 1,
     [
       { filterName: "platforms", option: "187" },
       { filterName: "ordering", option: "-metacritic" },
     ],
-    10
+    50
   );
 
-  const pc = await searchGames("", 1, [{ filterName: "platforms", option: "4" }], 10);
+  const pc = await searchGames("", 1, [{ filterName: "platforms", option: "4" }], 50);
 
   const { results } = data.data;
-  const customGames = await getGamesByIds(["799265", "58550", "2462", "494384", "452642", "452634"]);
+  const customGames = await getGamesByIds(["3841", "49", "1256", "423947", "58597", "3636"]);
   
   return (
     <section>
