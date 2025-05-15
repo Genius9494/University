@@ -9,14 +9,31 @@ type BuyButtonProps = {
 
 const BuyButton: React.FC<BuyButtonProps> = ({ name, price }) => {
   const handleBuy = async () => {
-    const res = await fetch("/api/checkout", {
-      method: "POST",
-      body: JSON.stringify({ name, price }),
-    });
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, price }),
+      });
 
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
+      // تحقق من حالة الاستجابة (إذا كانت غير ناجحة)
+      if (!res.ok) {
+        console.error("API Error:", res.statusText);
+        return;
+      }
+
+      const data = await res.json();
+
+      // إذا كان هناك رابط (URL) في الاستجابة، يتم إعادة التوجيه
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        console.error("No URL in response:", data);
+      }
+    } catch (error) {
+      console.error("Error during fetch:", error);
     }
   };
 
@@ -25,7 +42,7 @@ const BuyButton: React.FC<BuyButtonProps> = ({ name, price }) => {
       onClick={handleBuy}
       className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl mt-2"
     >
-      شراء بـ ${(price / 100).toFixed(2)}
+      Buy with ${(price / 100).toFixed(2)}
     </button>
   );
 };
