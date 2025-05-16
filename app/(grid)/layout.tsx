@@ -4,6 +4,8 @@ import MaxWidthWrapper from "../components/defaults/MaxWidthWrapper";
 import NavBar from "../components/nav/NavBar";
 import SideBar from "../components/nav/SideBar";
 import { WishlistProvider } from "../context/wishlistContext";
+import BackToTopButton from "../components/BackToTopButton";
+
 
 export default function RootLayout({
   children,
@@ -21,6 +23,7 @@ export default function RootLayout({
             <NavBar /> {children}
           </MaxWidthWrapper>
         </GridContainer>
+        <BackToTopButton />
       </main>
     </WishlistProvider>
   );

@@ -90,6 +90,7 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
               >
                 {name}
               </Link>
+
               
               {/* stars */}
               <div className="flex items-center gap-1">
@@ -97,6 +98,7 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
                 <span className="text-xs text-gray-300 ml-1">{rating.toFixed(1) || "N/A"}</span>
               </div>
               {/* stars// */}
+              
 
               <p className="text-xs text-gray-300">
                 Released: <span className="font-medium">{released}</span>

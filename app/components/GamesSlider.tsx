@@ -59,7 +59,7 @@ const GamesSlider = ({
                 <div className="relative cursor-pointer group">
                   <div
                     className="after:absolute after:inset-0 
-                    after:w-0 group-hover:after:w-full after:h-full after:bg-rose-500/60 after:rounded-2xl after:duration-200 
+                    after:w-0 group-hover:after:w-full after:h-full after:bg-purple-200/45 after:rounded-2xl after:duration-200 
                     w-full h-96 rounded-2xl overflow-hidden relative"
                   >
                     <Image

@@ -7,8 +7,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type SwiperType from "swiper";
 import "swiper/css";
 
-// صورة احتياطية في حال فشل التحميل
-const fallbackImage = "/fallback.jpg"; // تأكد أنك أضفتها إلى مجلد public
+
+const fallbackImage = "/fallback.jpg"; 
 
 const SwiperCards = ({
   items,
@@ -65,7 +65,7 @@ const SwiperCards = ({
                 key={i}
                 className={`${
                   swiper?.realIndex === i &&
-                  "shadow-md -translate-y-5 border-rose-300 border opacity-90"
+                  "shadow-md -translate-y-5 border-yellow-300 border opacity-90"
                 } cursor-pointer hover:-translate-y-5 z-10 hover:shadow-md hover:opacity-90 duration-200 rounded-xl overflow-hidden max-w-lg w-full h-40 relative`}
               >
                 {swiper?.realIndex === i && swiper.autoplay.running && (

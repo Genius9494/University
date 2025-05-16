@@ -33,7 +33,7 @@ const ImageSwitcher = ({ game, images }: ImageSwitcherProps) => {
             key={i}
             onClick={() => setActiveIndex(i)}
             className={`relative h-16 w-24 rounded-md overflow-hidden cursor-pointer border ${
-              i === activeIndex ? "border-rose-500" : "border-transparent"
+              i === activeIndex ? "border-yellow-500" : "border-transparent"
             }`}
           >
             <Image
