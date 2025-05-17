@@ -9,7 +9,7 @@ const BackToTopButton = () => {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.scrollY > 400) {
+      if (window.scrollY > 1500) {
         setVisible(true);
       } else {
         setVisible(false);
@@ -36,7 +36,7 @@ const BackToTopButton = () => {
     <button
       onClick={scrollToTop}
       className={cn(
-        "fixed bottom-14 items-center z-50 p-3 rounded-full bg-purple-900 text-white shadow-lg hover:bg-yellow-600 transition-all"
+        "fixed bottom-14 items-center z-50 p-3 rounded-full bg-blue-600 text-white shadow-lg hover:bg-yellow-600 transition-all"
       )}
       aria-label="Scroll to top"
     >

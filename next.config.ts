@@ -7,28 +7,26 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
-        port: '',
         pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'media.rawg.io',
-        port: '',
         pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'example.com',
-        port: '',
         pathname: '/**',
       },
     ],
+    unoptimized: true, // ✅ حل نهائي لمشكلة الصور الخارجية (500 error)
   },
   typescript: {
-    ignoreBuildErrors: true,  // إذا كنت بحاجة لتجاهل أخطاء البناء في TypeScript
+    ignoreBuildErrors: true,
   },
   env: {
-    MONGO_URI: process.env.MONGO_URI || '',  // تأكد من أن البيئة محددة بشكل صحيح
+    MONGO_URI: process.env.MONGO_URI || '',
   },
 };
 

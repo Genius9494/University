@@ -35,7 +35,7 @@ const GamesSlider = ({
           items={games.map((game: Game) => {
             return {
               card: big ? (
-                <div className="flex overflow-hidden items-center bg-main rounded-2xl">
+                <div className="flex overflow-hidden items-center text-lg bg-orange-950 rounded-2xl hover:bg-gray-400">
                   <div className="flex w-[60%] px-6 flex-col items-start">
                     <h1 className="text-xl border-b-2 border-neutral-100 w-full pb-3 font-semibold text-white">
                       {game.name}

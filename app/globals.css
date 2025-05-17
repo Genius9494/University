@@ -13,24 +13,26 @@
 #search {
   background: linear-gradient(90deg, rgba(61, 7, 99, 1) 0%, rgba(15, 182, 46, 0.718) 35%, rgba(195, 195, 14, 0.718) 100%);
 }
-.background {
-  background: linear-gradient(90deg, rgba(61, 7, 99, 1) 0%, rgba(34, 112, 48, 0.46) 35%, rgb(50, 49, 46) 100%);
-  /* background: #3d0763;
-  /* background: black; */
-  /* background: linear-gradient(
+/* .background { */
+  /* background: linear-gradient(90deg, rgba(61, 7, 99, 1) 0%, rgba(34, 112, 48, 0.46) 35%, rgb(50, 49, 46) 100%); */
+  /* background: #3d0763; */
+  body{
+   background: linear-gradient(
     43deg,
-    rgb(119, 0, 255) 0%,
-    rgb(0, 98, 255) 0%,
-    rgb(166, 34, 34) 0%,
-    rgb(144, 0, 255) 53%,
-    rgb(130, 139, 22) 100%,
-    rgb(0, 255, 64) 100%,
-    rgb(3, 240, 15) 100%
-  ); */
-}
-body{
+    rgba(255, 0, 0, 0.603) 0%,
+    rgb(153, 255, 0) 0%,
+    rgba(255, 0, 0, 0.726) 0%,
+    rgba(76, 31, 31, 0.832) 53%,
+    rgb(0, 0, 0) 100%,
+    rgb(25, 0, 255) 100%,
+    rgba(0, 0, 255, 0.636) 100%
+  );
   direction: rtl;
 }
+#spinner {
+  background-image:url('../app/../public/game1.jpg');
+}
+
 #span2:hover{
     word-spacing: 3px;
 }
