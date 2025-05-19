@@ -1,10 +1,6 @@
 import { getGamesByIds, searchGames } from "../api/api";
 import GamesSlider from "../components/GamesSlider";
 import Hero from "../components/Hero";
-import MotionItem from "../components/defaults/MotionItem";
-import { Game, normalizeGame } from "@/types";
-import GridContainer from "../components/defaults/GridContainer";
-import HighRating from "../components/HighRating";
 
 
 export default async function Home() {

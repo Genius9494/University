@@ -6,7 +6,6 @@ import GridContainer from "../../components/defaults/GridContainer";
 import GameCard from "../../components/GameCard";
 
 
-
 const famousGames: Partial<Game>[] = [
   {
     id: 1,
@@ -57,6 +56,7 @@ const FamousGamesPage = () => {
         {famousGames.map((data) => {
           const game: Game = normalizeGame(data);
           return <GameCard key={game.id} game={game} screenBig={false} wishlist />;
+          
         })}
       </GridContainer>
     </section>

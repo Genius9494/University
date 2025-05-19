@@ -17,7 +17,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 export const NAV_LINKS = [
   { link: "/", label: "Home", icon: <SiHomebridge /> },
-  { link: "/category", label: "Categories", icon: <MdCategory /> },
+  // { link: "/category", label: "Categories", icon: <MdCategory /> },
   { link: "/games", label: "Games", icon: <IoGameController /> },
   { link: "/wishlist", label: "Wishlist", icon: <GiRoyalLove /> },
   { link: "/distinct", label: "Special", icon: <FiAward /> },
@@ -87,6 +87,7 @@ const SideBar = () => {
           </div>
         ) : user?.data ? (
           <div className="mt-auto w-full space-y-2">
+            
             <NavLink
               navLink={{
                 link: "/settings",
@@ -97,6 +98,7 @@ const SideBar = () => {
             <Button onClick={handleLogout} variant="destructive" className="w-full">
               Logout
             </Button>
+            
           </div>
         ) : null}
       </div>

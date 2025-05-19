@@ -90,7 +90,7 @@ const Hero = () => {
                   btnClasses="font-bold text-white bg-green-500 hover:bg-orange-400"
                   desc="Minecraft is a sandbox game where players can build and explore their own worlds made of blocks. You can mine resources, craft tools"
                   title="Advanture"
-                  image="/mincraft.png"
+                  image="/mm1.png"
                 />
               </div>
             ),
