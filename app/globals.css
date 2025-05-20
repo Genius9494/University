@@ -7,6 +7,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: column !important;
+  background-image: url(../public/game2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
   
 }
 

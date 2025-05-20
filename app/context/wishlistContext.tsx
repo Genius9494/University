@@ -65,7 +65,6 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
     [wishlist, user, mount, queryClient, setWishListLocal]
   );
 
-  // ✅ هنا نعالج الشرط ضمن JSX بدلًا من إيقاف تنفيذ hook
   if (isLoading || !mount) return <Spinner />;
 
   return (
