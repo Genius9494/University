@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import QueryProvider from "@/lib/QueryProvider";
 import { ThemeProvider } from "next-themes";
+import { TranslationProvider } from "@/lib/TranslationProvider"; // ✅ تم الاستيراد
 
 export const metadata: Metadata = {
   title: "Genius Gaming",
@@ -20,24 +21,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* ✅ ThemeProvider يجب أن يكون هنا داخل body */}
       <body className={`${montserrat.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <QueryProvider>
-            <ToastContainer
-              position="top-center"
-              autoClose={2500}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              pauseOnFocusLoss
-              pauseOnHover={false}
-              theme="dark"
-            />
-            {children}
+            <TranslationProvider> 
+              <ToastContainer
+                position="top-center"
+                autoClose={2500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                pauseOnFocusLoss
+                pauseOnHover={false}
+                theme="dark"
+              />
+              {children}
+            </TranslationProvider>
           </QueryProvider>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+

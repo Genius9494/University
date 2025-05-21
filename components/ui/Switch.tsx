@@ -16,4 +16,4 @@ const Switch = ({ className, ...props }: SwitchPrimitives.SwitchProps) => (
   </SwitchPrimitives.Root>
 )
 
-export { Switch };
+export { Switch };  

@@ -11,7 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTranslation } from "@/lib/useTranslation";
+import { useTranslation } from "@/lib/TranslationProvider";
 
 const backgroundOptions = [
   { label: "Default", value: "bg-background" },
@@ -46,19 +46,16 @@ const backgroundOptions = [
   { label: "Orange", value: "bg-orange" },
 ];
 
-
 export default function SettingsPage() {
-  const [language, setLanguage] = useState<"en" | "ar">("en");
-  const { t } = useTranslation();
+  const { t, lang, setLang } = useTranslation();
   const { theme, setTheme } = useTheme();
   const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
   const [bgColor, setBgColor] = useState("bg-background");
 
-  // ❗ تحميل من localStorage
+  // تحميل الإعدادات من localStorage عند أول تحميل
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     const savedBgColor = localStorage.getItem("bgColor");
-    const savedLang = localStorage.getItem("lang");
 
     if (savedTheme) setIsDarkMode(savedTheme === "dark");
     if (savedBgColor) {
@@ -66,15 +63,9 @@ export default function SettingsPage() {
       document.body.classList.add(savedBgColor);
     }
 
-    if (savedLang === "ar") {
-      setLanguage("ar");
-      document.documentElement.lang = "ar";
-      document.documentElement.dir = "rtl";
-    } else {
-      setLanguage("en");
-      document.documentElement.lang = "en";
-      document.documentElement.dir = "ltr";
-    }
+    // إعداد الاتجاه واللغة في HTML
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   }, []);
 
   useEffect(() => {
@@ -89,10 +80,10 @@ export default function SettingsPage() {
   }, [bgColor]);
 
   useEffect(() => {
-    document.documentElement.lang = language;
-    document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
-    localStorage.setItem("lang", language);
-  }, [language]);
+    // تحديث اللغة والاتجاه في DOM عندما تتغير من السياق
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+  }, [lang]);
 
   return (
     <div className="mt-5 h-screen max-w-3xl mx-auto p-8 space-y-8 bg-white dark:bg-gray-900 rounded-lg shadow-md">
@@ -154,11 +145,12 @@ export default function SettingsPage() {
         </span>
         <Button
           variant="outline"
-          onClick={() =>
-            setLanguage((prev) => (prev === "en" ? "ar" : "en"))
-          }
+          onClick={() => {
+            const newLang = lang === "en" ? "ar" : "en";
+            setLang(newLang); // هذا من useTranslation
+          }}
         >
-          {language === "en" ? "العربية" : "English"}
+          {lang === "en" ? "العربية" : "English"}
         </Button>
       </section>
     </div>
