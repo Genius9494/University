@@ -7,7 +7,7 @@ export async function POST() {
     const cookie = serialize("token", "", {
       httpOnly: true,
       expires: new Date(0),
-      path: "/",
+      path: "/home",
     });
 
     return new NextResponse(

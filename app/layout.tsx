@@ -7,7 +7,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import QueryProvider from "@/lib/QueryProvider";
 import { ThemeProvider } from "next-themes";
-import { TranslationProvider } from "@/lib/TranslationProvider"; // ✅ تم الاستيراد
+import { TranslationProvider } from "@/lib/TranslationProvider"; 
+
 
 export const metadata: Metadata = {
   title: "Genius Gaming",
