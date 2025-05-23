@@ -23,7 +23,6 @@ export default function RootLayout({
       <WishlistProvider>
         <main className="min-h-screen h-full grid background dark">
           <ButtonGradient />
-
           <GridContainer cols={12}>
             <SideBar />
             <MaxWidthWrapper className="col-span-full lg:col-span-10">

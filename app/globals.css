@@ -12,6 +12,9 @@
   background-size: cover;
   
 }
+#done2{
+  direction: ltr;
+}
 
 #search {
   background: linear-gradient(90deg, rgba(61, 7, 99, 1) 0%, rgba(15, 182, 46, 0.718) 35%, rgba(195, 195, 14, 0.718) 100%);

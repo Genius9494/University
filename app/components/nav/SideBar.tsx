@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 
 export const NAV_LINKS = [
-  { link: "/", label: "Home", icon: <SiHomebridge /> },
+  { link: "/home", label: "Home", icon: <SiHomebridge /> },
   { link: "/games", label: "Games", icon: <IoGameController /> },
   { link: "/wishlist", label: "Wishlist", icon: <GiRoyalLove /> },
   { link: "/distinct", label: "Special", icon: <FiAward /> },

@@ -2,7 +2,6 @@ import { getGamesByIds, searchGames } from "@/app/api/api";
 import GamesSlider from "../../components/GamesSlider";
 import Hero from "../../components/Hero";
 
-
 export default async function Home() {
   const data = await searchGames("", 2, [], 50);
 
@@ -13,6 +12,8 @@ export default async function Home() {
     ],
     50
   );
+
+  
 
   const pc = await searchGames("", 1, [{ filterName: "platforms", option: "4" }], 50);
 
@@ -30,8 +31,7 @@ export default async function Home() {
       <GamesSlider slidesPerView={4} title="Top PC Games" games={pc.data.results} />
       <GamesSlider slidesPerView={3} title="Various Games" games={ps5.data.results} />
       <GamesSlider screenBig big slidesPerView={1} title="New Releases" games={NewGames.map((game) => game.data)} />
-      <GamesSlider slidesPerView={2} title="Top PC Games" games={pc.data.results} />
-      
+      <GamesSlider slidesPerView={2} title="Top PC Games" games={pc.data.results} />      
 
     </section>
   );

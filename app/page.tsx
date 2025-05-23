@@ -3,6 +3,8 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import ButtonGame from './components/defaults/ButtonGame';
+
 
 export default function SplashPage() {
   const router = useRouter();
@@ -29,7 +31,12 @@ export default function SplashPage() {
         >
           Let's go in
         </button>
+        
       </div>
+          <div id='done2' className="mt-5 ml-5 gap- animate-pulse">
+            <ButtonGame className='text-red-600 font-bold' link="/login" text="Login" />
+            <ButtonGame className='text-red-600 font-bold' link="/signup" text="Sign up" />
+          </div>
     </div>
   );
 }
