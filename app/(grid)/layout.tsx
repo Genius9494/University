@@ -8,6 +8,7 @@ import GridContainer from "../components/defaults/GridContainer";
 import MaxWidthWrapper from "../components/defaults/MaxWidthWrapper";
 import NavBar from "../components/nav/NavBar";
 import SideBar from "../components/nav/SideBar";
+import CartIcon from "../components/CartIcon";
 
 // ✅ Context & Providers
 import { WishlistProvider } from "../context/wishlistContext";
@@ -27,6 +28,7 @@ export default function RootLayout({
             <SideBar />
             <MaxWidthWrapper className="col-span-full lg:col-span-10">
               <NavBar />
+              <CartIcon />
               {children}
             </MaxWidthWrapper>
           </GridContainer>

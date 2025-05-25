@@ -23,6 +23,7 @@ export const NAV_LINKS = [
   { link: "/ratings", label: "Ratings", icon: <FiActivity /> },
   { link: "/famous", label: "Famous", icon: <FiFeather /> },
   { link: "/category", label: "Categories", icon: <MdCategory /> },
+  { link: "/cart", label: "Cart", icon: <MdCategory /> },
 ];
 
 const SideBar = () => {

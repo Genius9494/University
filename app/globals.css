@@ -36,13 +36,11 @@
   ); */
   direction: rtl;
 }
-#spinner {
-  background-image:url('../app/../public/game1.jpg');
-}
 
 #span2:hover{
     word-spacing: 3px;
 }
+
 
 
 @layer base {

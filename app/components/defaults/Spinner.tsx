@@ -1,9 +1,10 @@
 import React from "react";
-import { BiLoaderCircle } from "react-icons/bi";
+import { ImSpinner10 } from "react-icons/im";
+// import { SpinnerOne } from "@mynaui/icons-react";
 
 const Spinner = () => {
   return <div id="done" className="h-screen">
-    <BiLoaderCircle id="spinner" className=" text-yellow-500 mt-50 w-16 h-16 animate-spin" />
+    <ImSpinner10 id="spinner" className=" text-yellow-500 mt-50 w-16 h-16 animate-spin" />
     <p className=" mt-4 text-green-500 text-xl animate-pulse ">.....Please Wait</p>
   </div> 
 };

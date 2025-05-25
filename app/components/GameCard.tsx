@@ -1,13 +1,19 @@
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import * as React from 'react';
 import { FaPlaystation, FaXbox, FaSteam } from "react-icons/fa";
 import ImageSwitcher from "./ImageSwitcher";
 import AddToWishList from "./AddToWishList";
 import { Game, normalizeGame } from "@/types";
 import BuyButton from "./BuyButton";
 
+import { useCart } from "../../app/hooks/useCart";
+import { useState } from "react";
+
+
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
   
 type GameCardProps = {
   game: Game;
@@ -55,9 +61,35 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
     added = 0,  
   } = game;
 
+
+  const [open, setOpen] = useState(false);
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: id.toString(),
+      name: game.name,
+      price: game.price,
+      quantity: 1,
+    });
+    setOpen(true);
+  };
+
+  const handleClose = (_: unknown, reason?: string) => {
+    if (reason === 'clickaway') return;
+    setOpen(false);
+  };
+
   const platforms = parent_platforms?.map((platformObj) => platformObj.platform.slug);
 
   return (
+    <>
+    {/* ✅ Snackbar العائم */}
+    <Snackbar open={open} autoHideDuration={2000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+    <Alert className="!bg-yellow-500" onClose={handleClose} severity="success" variant="filled" sx={{ width: '100%' }}>
+    The game has been added to the cart!
+    </Alert>
+  </Snackbar>
     <HoverCard>
       <div className="flex relative flex-col items-start gap-4">
         <HoverCardTrigger className="relative cursor-pointer w-full" asChild>
@@ -103,6 +135,14 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
               <p className="text-xs text-gray-300">
                 Released: <span className="font-medium">{released}</span>
               </p>
+
+              <button
+                onClick={handleAddToCart}
+                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm"
+              >
+                أضف إلى السلة
+              </button>
+              
               <BuyButton name={name} price={game.price} />
               
               
@@ -127,8 +167,11 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
         </HoverCardContent>
       </div>
     </HoverCard>
+    </>
   );
-};              
+  
+};         
+     
 
 
 
