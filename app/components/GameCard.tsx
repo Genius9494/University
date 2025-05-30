@@ -8,12 +8,14 @@ import AddToWishList from "./AddToWishList";
 import { Game, normalizeGame } from "@/types";
 import BuyButton from "./BuyButton";
 
-import { useCart } from "../../app/hooks/useCart";
+import {useCart} from "../../app/store/cartStore"
 import { useState } from "react";
 
 
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+
+import toast from 'react-hot-toast'
   
 type GameCardProps = {
   game: Game;
@@ -63,7 +65,9 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
 
 
   const [open, setOpen] = useState(false);
-  const { addToCart } = useCart();
+  const { cart, addToCart } = useCart();
+  const isInCart = cart.some(item => item.id === game.id.toString());
+
 
   const handleAddToCart = () => {
     addToCart({
@@ -137,11 +141,26 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
               </p>
 
               <button
-                onClick={handleAddToCart}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm"
-              >
-                أضف إلى السلة
-              </button>
+  onClick={() => {
+    if (!isInCart) {
+      addToCart({
+        id: game.id.toString(),
+        name: game.name,
+        price: game.price,
+        quantity: 1,
+      });
+      toast.success("The game has been added to the cart!");
+    }
+  }}
+  disabled={isInCart}
+  className={`px-4 py-2 mt-2 text-white rounded-2xl transition ${
+    isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+  }`}
+>
+  {isInCart ? "Added to cart" : "add to cart"}
+</button>
+
+
               
               <BuyButton name={name} price={game.price} />
               

@@ -9,6 +9,7 @@ import QueryProvider from "@/lib/QueryProvider";
 import { ThemeProvider } from "next-themes";
 import { TranslationProvider } from "@/lib/TranslationProvider"; 
 
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Genius Gaming",
@@ -37,6 +38,7 @@ export default function RootLayout({
                 theme="dark"
               />
               {children}
+              <Toaster position="top-center" reverseOrder={false}  />
             </TranslationProvider>
           </QueryProvider>
         </ThemeProvider>

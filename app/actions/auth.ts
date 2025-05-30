@@ -47,7 +47,6 @@ export const protect = async () => {
 };
 
 // ✅ الحصول على بيانات المستخدم
-// ✅ الحصول على بيانات المستخدم
 export const getUser = async () => {
   try {
     await connect();

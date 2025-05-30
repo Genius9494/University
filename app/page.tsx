@@ -10,7 +10,7 @@ export default function SplashPage() {
   const router = useRouter();
 
   const handleEnterSite = () => {
-    router.push('/home');
+    router.push('/Home');
   };
 
   return (

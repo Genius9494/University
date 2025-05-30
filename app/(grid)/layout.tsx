@@ -28,7 +28,6 @@ export default function RootLayout({
             <SideBar />
             <MaxWidthWrapper className="col-span-full lg:col-span-10">
               <NavBar />
-              <CartIcon />
               {children}
             </MaxWidthWrapper>
           </GridContainer>
