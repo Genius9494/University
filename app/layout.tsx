@@ -38,7 +38,7 @@ export default function RootLayout({
                 theme="dark"
               />
               {children}
-              <Toaster position="top-center" reverseOrder={false}  />
+              <Toaster  position="top-center" reverseOrder={false}  />
             </TranslationProvider>
           </QueryProvider>
         </ThemeProvider>

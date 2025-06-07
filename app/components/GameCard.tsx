@@ -9,7 +9,7 @@ import { Game, normalizeGame } from "@/types";
 import BuyButton from "./BuyButton";
 
 import {useCart} from "../../app/store/cartStore"
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 
 import Snackbar from '@mui/material/Snackbar';
@@ -38,14 +38,33 @@ const renderStars = (rating: number) => {
   return stars;
 };
 
+
+
 // const GameCard = ({ game, images, wishlist = false }: GameCardProps) => {
 //   if (!game) return null;
 
 const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) => {
   const game = normalizeGame(rawGame);
 
-  if (!game) return null;
+  // Function to generate a random price
 
+  const price = React.useMemo(() => {
+    const min = 100;
+    const max = 700;
+    return +(Math.random() * (max - min) + min).toFixed(2);
+  }, []);
+  console.log(price);
+  
+
+  const price2 = React.useMemo(() => {
+    const min = 100;
+    const max = 700;
+    return +(Math.random() * (max - min) + min).toFixed(2);
+  }, []);
+  console.log(price);
+  
+  
+  if (!game) return null;
 
   const {
     background_image,
@@ -73,7 +92,7 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
     addToCart({
       id: id.toString(),
       name: game.name,
-      price: game.price,
+      price: price,
       quantity: 1,
     });
     setOpen(true);
@@ -88,12 +107,12 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
 
   return (
     <>
-    {/* ✅ Snackbar العائم */}
+    {/* ✅ Snackbar العائم
     <Snackbar open={open} autoHideDuration={2000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
     <Alert className="!bg-yellow-500" onClose={handleClose} severity="success" variant="filled" sx={{ width: '100%' }}>
     The game has been added to the cart!
     </Alert>
-  </Snackbar>
+  </Snackbar> */}
     <HoverCard>
       <div className="flex relative flex-col items-start gap-4">
         <HoverCardTrigger className="relative cursor-pointer w-full" asChild>
@@ -139,30 +158,44 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
               <p className="text-xs text-gray-300">
                 Released: <span className="font-medium">{released}</span>
               </p>
+              <p className="text-xs text-green-400 font-bold">
+                  price: ${price.toFixed(2)}   
+              </p>
+
 
               <button
-  onClick={() => {
-    if (!isInCart) {
-      addToCart({
-        id: game.id.toString(),
-        name: game.name,
-        price: game.price,
-        quantity: 1,
-      });
-      toast.success("The game has been added to the cart!");
-    }
-  }}
-  disabled={isInCart}
-  className={`px-4 py-2 mt-2 text-white rounded-2xl transition ${
-    isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-  }`}
->
-  {isInCart ? "Added to cart" : "add to cart"}
-</button>
+                  onClick={() => {
+                    if (!isInCart) {
+                      addToCart({
+                        id: game.id.toString(),
+                        name: game.name,
+                        price: price,
+                        quantity: 1,
+                      });
+                      toast.success("The game has been added to the cart!", {
+                        style: {
+                          background:"rgba(0, 0, 0, 1)",
+                          color:"green",
+                          fontWeight:"bold",
+                          fontSize:"15px",
+                          borderRadius:"10px", 
+
+                        }
+                      });
+                    }
+                  }}
+                  disabled={isInCart}
+                  className={`px-4 py-2 mt-2 text-white rounded-2xl transition ${
+                    isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                  }`}
+                >
+                  {isInCart ? "Added to cart" : "add to cart"}
+               </button>
 
 
               
-              <BuyButton name={name} price={game.price} />
+              <BuyButton name={name} price={price} />
+              
               
               
               <div className="mt-2 flex items-center gap-1">

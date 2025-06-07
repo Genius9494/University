@@ -16,7 +16,7 @@ export default function SplashPage() {
   return (
     <div className="relative w-full h-screen overflow-hidden width-full">
       <video
-                  className=" absolute w-full h-full object-cover rounded-2xl  inset-0"
+                  className=" absolute w-full h-full object-cover inset-0"
                   autoPlay={true}
                   muted={true}
                   loop={true}
