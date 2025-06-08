@@ -1,11 +1,11 @@
 // app/cart/page.tsx
 'use client';
 
-import { useCart } from "../store/cartStore";
+import { useCart } from "../../store/cartStore";
 import Link from "next/link";
 import { FaCartShopping } from "react-icons/fa6";
 import toast from "react-hot-toast";
-import SideBar from "../components/nav/SideBar";
+import SideBar from "../../components/nav/SideBar";
 
 
 export default function CartPage() {
@@ -16,10 +16,9 @@ export default function CartPage() {
   
   
   return (
-    <div className="flex items-center justify-betweem w-full sticky ">
-        <SideBar />
+    
       
-    <div className="p-6 bg-cyan-900 rounded-b-xl w-full h-screen  ">
+    <div className="p-6 bg-cyan-900 rounded-2xl w-full mt-10 ">
       
       <h1 className="flex items-center gap-4 text-2xl font-bold mb-4 text-white">Shopping Cart <FaCartShopping /> </h1>
       
@@ -34,7 +33,7 @@ export default function CartPage() {
                 <p className="text-gray-300 text-sm mt-4 gap-4"> Quantity: {item.quantity}</p>
               </div>
               <div className="flex items-center gap-2">
-                <p className="text-white font-bold">${item.price * item.quantity}</p>
+                <p className="text-white font-bold">${(item.price/100 * item.quantity).toFixed(2)}</p>
                 <button
                   onClick={() => removeFromCart(item.id) }
                   className="text-red-500 text-sm"
@@ -48,7 +47,7 @@ export default function CartPage() {
 
           <div className="flex justify-between items-center mt-4 border-t border-gray-600 pt-4">
             <span className="text-white font-semibold">Total :</span>
-            <span className="text-green-400 font-bold text-lg">${totalPrice}</span>
+            <span className="text-green-400 font-bold text-lg">${(totalPrice/100).toFixed(2)}</span>
           </div>
 
           <button
@@ -65,6 +64,6 @@ export default function CartPage() {
       Back To Home ⬅ 
       </Link>
     </div>
-    </div>
+    
   );
 }

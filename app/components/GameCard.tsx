@@ -12,9 +12,6 @@ import {useCart} from "../../app/store/cartStore"
 import { useState, useMemo } from "react";
 
 
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
-
 import toast from 'react-hot-toast'
   
 type GameCardProps = {
@@ -53,15 +50,6 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
     const max = 700;
     return +(Math.random() * (max - min) + min).toFixed(2);
   }, []);
-  console.log(price);
-  
-
-  const price2 = React.useMemo(() => {
-    const min = 100;
-    const max = 700;
-    return +(Math.random() * (max - min) + min).toFixed(2);
-  }, []);
-  console.log(price);
   
   
   if (!game) return null;
@@ -158,9 +146,9 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
               <p className="text-xs text-gray-300">
                 Released: <span className="font-medium">{released}</span>
               </p>
-              <p className="text-xs text-green-400 font-bold">
-                  price: ${price.toFixed(2)}   
-              </p>
+              <span className="text-xs text-green-400 font-bold">
+              price: ${(price/100).toFixed(2)}
+              </span>
 
 
               <button
