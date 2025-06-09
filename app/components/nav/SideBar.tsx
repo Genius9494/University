@@ -19,7 +19,7 @@ export const NAV_LINKS = [
   { link: "/Home", label: "Home", icon: <SiHomebridge /> },
   { link: "/games", label: "Games", icon: <IoGameController /> },
   { link: "/wishlist", label: "Wishlist", icon: <GiRoyalLove /> },
-  { link: "/distinct", label: "Special", icon: <FiAward /> },
+  { link: "/special", label: "Special", icon: <FiAward /> },
   { link: "/ratings", label: "Ratings", icon: <FiActivity /> },
   { link: "/famous", label: "Famous", icon: <FiFeather /> },
   { link: "/category", label: "Categories", icon: <MdCategory /> },

@@ -1,8 +1,6 @@
 import React from "react";
-import MaxWidthWrapper from "./defaults/MaxWidthWrapper";
 import SwiperCards from "./SwiperCards";
 import "swiper/css";
-import Image from "next/image";
 import CardInfo from "./CardInfo";
 
 const Hero = () => {

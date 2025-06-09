@@ -38,9 +38,9 @@ const BuyButton: React.FC<BuyButtonProps> = ({ name, price }) => {
   };
 
   return (
-    <button
+    <button style={{width:"50%"}}
       onClick={handleBuy}
-      className="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-xl mt-2"
+      className="bg-green-600 hover:bg-red-700 text-white py-2 px-4 rounded-xl mt-6 h-10 animate-pulse delay-75 text-sm"
     >
       Buy with ${(price / 100).toFixed(2)}
     </button>

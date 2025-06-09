@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { PlusCircle, XCircle } from "lucide-react";
+import { XCircle } from "lucide-react";
 import { useWishlist } from "../context/wishlistContext";
+import { MdAddShoppingCart } from "react-icons/md";
+
 
 const AddToWishList = ({ gameId, plus }: { gameId: string; plus?: boolean}) => {
   const { handleAddToWishlist, wishlist } = useWishlist();
@@ -18,13 +20,13 @@ const AddToWishList = ({ gameId, plus }: { gameId: string; plus?: boolean}) => {
 
   if (plus) {
     return isInWishlist ? (
-      <XCircle
+      <XCircle style={{width:"25px", height:"25px", border:"1px, solid, red"}}
         onClick={toggleWishlist}
         className="text-red-500 cursor-pointer" 
         aria-label="Remove from Wishlist"
       />
     ) : (
-      <PlusCircle
+      <MdAddShoppingCart style={{width:"20px",height:"20px",border:"1px,solid,green"}}
         onClick={toggleWishlist}
         className="text-green-500 cursor-pointer"
         aria-label="Add to Wishlist"

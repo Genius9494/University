@@ -4,10 +4,9 @@ import React from "react";
 import { Game, normalizeGame } from "@/types";
 import GridContainer from "../../components/defaults/GridContainer";
 import GameCard from "../../components/GameCard";
-import toast from "react-hot-toast";
 
 
-const famousGames: Partial<Game>[] = [
+const specialGames: Partial<Game>[] = [
   {
     id: 1,
     name: "The Witcher 3: Wild Hunt",
@@ -179,12 +178,12 @@ const famousGames: Partial<Game>[] = [
   },
 ];
 
-const FamousGamesPage = () => {
+const SpecialGames = () => {
   return (
     <section className="p-6">
       <h1 className="text-3xl font-bold mb-4 text-yellow-400">🔥 Famous Games</h1>
       <GridContainer cols={3} className="gap-4">
-        {famousGames.map((data) => {
+        {specialGames.map((data) => {
           const game: Game = normalizeGame(data);
           return <GameCard key={game.id} game={game} screenBig={false} wishlist />;
           
@@ -194,6 +193,6 @@ const FamousGamesPage = () => {
   );
 };
 
-export default FamousGamesPage;
+export default SpecialGames;
 
 

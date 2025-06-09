@@ -11,7 +11,7 @@ import BuyButton from "./BuyButton";
 import {useCart} from "../../app/store/cartStore"
 import { useState, useMemo } from "react";
 
-
+import { FaCartShopping } from "react-icons/fa6";
 import toast from 'react-hot-toast'
   
 type GameCardProps = {
@@ -146,11 +146,12 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
               <p className="text-xs text-gray-300">
                 Released: <span className="font-medium">{released}</span>
               </p>
-              <span className="text-xs text-green-400 font-bold">
+              {/* <span className="text-xs text-green-400 font-bold">
               price: ${(price/100).toFixed(2)}
-              </span>
+              </span> */}
 
-
+              
+              <div className="flex Items-center gap-x-3"> 
               <button
                   onClick={() => {
                     if (!isInCart) {
@@ -173,17 +174,15 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
                     }
                   }}
                   disabled={isInCart}
-                  className={`px-4 py-2 mt-2 text-white rounded-2xl transition ${
-                    isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                  className={`px-4 py-2 text-white rounded-xl transition h-10 mt-6 animate-pulse delay-75 ${
+                    isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
                   }`}
                 >
-                  {isInCart ? "Added to cart" : "add to cart"}
+                  {isInCart} <FaCartShopping />
                </button>
 
-
-              
               <BuyButton name={name} price={price} />
-              
+              </div>
               
               
               <div className="mt-2 flex items-center gap-1">

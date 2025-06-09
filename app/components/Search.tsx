@@ -63,7 +63,7 @@ const Search = () => {
       className="w-full flex relative group items-center gap-2 justify-between px-4 border border-input rounded-xl md:w-[40%]"
       
     >
-      <input
+      <input id="ppp" placeholder="Search For Games"
         value={query}
         onChange={(e) => {
           setActive(true);

@@ -15,7 +15,7 @@ const path = () => {
 
 const NavBar = () => {
   const { user, isLoading, isError } = useGetUser();
-  const {cart} =useCart();
+  const {cart} = useCart();
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   if (isLoading) {
