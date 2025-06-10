@@ -70,7 +70,7 @@ const Search = () => {
           setQuery(e.target.value);
           
         }}
-        className="py-2 text-base w-full bg-transparent text-gray-50 border-none outline-none active:outline-none ring-0 placeholder:text-gray-500"
+        className="py-2 text-base w-full bg-transparent text-gray-50 border-none outline-none active:outline-none ring-0 placeholder:text-gray-500 font-semibold cursor-pointer"
       />
       <div className="flex items-center gap-2">
         <XIcon

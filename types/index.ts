@@ -73,6 +73,7 @@ export interface Game {
   name: string;
   released: string;
   tba: boolean;
+  src: any;
   background_image: string;
   rating: number;
   rating_top: number;
@@ -112,6 +113,7 @@ export const normalizeGame = (partial: Partial<Game>): Game => {
     slug: partial.slug ?? '',
     name: partial.name ?? 'Unknown Game',
     released: partial.released ?? 'Unknown',
+    src: partial.src ?? '',
     //  السعر
     price: partial.price ?? 0, 
     //  السعر     

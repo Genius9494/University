@@ -18,26 +18,30 @@
 
 #ppp::placeholder{
   color:white;
-  font-size: large;
-  letter-spacing: 3px;
-  
+  letter-spacing: 1px;
 }
 
 #search {
-  background: linear-gradient(90deg, rgba(61, 7, 99, 1) 0%, rgba(15, 182, 46, 0.718) 35%, rgba(195, 195, 14, 0.718) 100%);
+  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
 }
-/* .background { */
-  /* background: linear-gradient(90deg, rgba(61, 7, 99, 1) 0%, rgba(34, 112, 48, 0.46) 35%, rgb(50, 49, 46) 100%); */
-  /* background: #3d0763; */
+
+#search:hover{
+  background: linear-gradient(186deg,rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
+}
   body{
-    /*background: linear-gradient(
-    43deg,
-    rgb(163, 0, 245) 53%,
-    rgb(0, 0, 0) 100%,
-    rgb(25, 0, 255) 100%,
-    rgba(0, 0, 255, 0.636) 100%
-  ); */
+    background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(195, 60, 87) 100%);
+    /* background: linear-gradient(181deg,rgba(134, 6, 189, 1)
+     0%, rgba(134, 6, 189, 1) 45%,
+      rgba(154, 152, 250, 1) 5%,
+       rgba(154, 152, 250, 1) 11%,
+        rgba(134, 6, 189, 1) 32%,
+         rgba(154, 152, 250, 1) 87%,
+          rgba(134, 6, 189, 1) 42%,
+           rgba(154, 152, 250, 1) 68%); */
   direction: rtl;
+}
+#cart {
+  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
 }
 
 #span2:hover{

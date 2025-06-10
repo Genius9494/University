@@ -1,10 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { XCircle } from "lucide-react";
+import { MdDeleteForever } from "react-icons/md";
 import { useWishlist } from "../context/wishlistContext";
 import { MdAddShoppingCart } from "react-icons/md";
-
+import toast from "react-hot-toast";
 
 const AddToWishList = ({ gameId, plus }: { gameId: string; plus?: boolean}) => {
   const { handleAddToWishlist, wishlist } = useWishlist();
@@ -20,19 +20,29 @@ const AddToWishList = ({ gameId, plus }: { gameId: string; plus?: boolean}) => {
 
   if (plus) {
     return isInWishlist ? (
-      <XCircle style={{width:"25px", height:"25px", border:"1px, solid, red"}}
+      <MdDeleteForever style={{width:"25px", height:"25px"}}
         onClick={toggleWishlist}
         className="text-red-500 cursor-pointer" 
         aria-label="Remove from Wishlist"
       />
     ) : (
-      <MdAddShoppingCart style={{width:"20px",height:"20px",border:"1px,solid,green"}}
+      <MdAddShoppingCart style={{width:"25px",height:"25px"}}
         onClick={toggleWishlist}
         className="text-green-500 cursor-pointer"
         aria-label="Add to Wishlist"
+        
       />
     );
-  }
+  }toast.success("The game has been added to the cart!", {
+    style: {
+      background:"rgba(0, 0, 0, 1)",
+      color:"green",
+      fontWeight:"bold",
+      fontSize:"15px",
+      borderRadius:"10px", 
+
+    }
+  });
 
   return (
     <Button

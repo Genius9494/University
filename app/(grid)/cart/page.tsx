@@ -16,7 +16,7 @@ export default function CartPage() {
   return (
     
       
-    <div className="p-6 bg-purple-900 rounded-2xl w-full mt-10">
+    <div id="cart" className="p-6 bg-gray-600 rounded-2xl w-full mt-10">
       
       <h1 className="flex items-center gap-4 text-2xl font-bold mb-4 text-white mr-2">Shopping Cart <FaCartShopping /> </h1>
       
