@@ -15,7 +15,7 @@ const NavLink = ({ navLink }: { navLink: { link: string; label: string; icon: Re
         isActive ? "  text-yellow-300" : " text-gray-50"
       } hover:text-green-500 hover:skew-x-12 hover:translate-x-5 my-2 duration-200 gap-4 gap-x items-center p-4  rounded-md`}
     >
-      {React.cloneElement(icon, { className: "w-5 h-5" })}
+      {React.cloneElement(icon, { className: "w-5 h-5 text-green-500" })}
       {label}
     </Link>
   );

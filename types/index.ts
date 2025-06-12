@@ -153,3 +153,15 @@ export const normalizeGame = (partial: Partial<Game>): Game => {
     short_screenshots: partial.short_screenshots ?? [],
   };
 };
+
+//الاخبار
+export type BlogPost = {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  image?: string;
+  tags?: string[];
+  publishedAt: string;
+};
+

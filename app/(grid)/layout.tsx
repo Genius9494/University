@@ -8,7 +8,6 @@ import GridContainer from "../components/defaults/GridContainer";
 import MaxWidthWrapper from "../components/defaults/MaxWidthWrapper";
 import NavBar from "../components/nav/NavBar";
 import SideBar from "../components/nav/SideBar";
-import CartIcon from "../components/CartIcon";
 
 // ✅ Context & Providers
 import { WishlistProvider } from "../context/wishlistContext";

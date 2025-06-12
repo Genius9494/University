@@ -33,6 +33,7 @@ const NavBar = () => {
     <nav>
       <header className="flex justify-between items-center">
         <Search />
+        <span className="flex items-center gap-2 mr-96"> {totalItems} <FaCartShopping onClick={path} className="text-red-500 cursor-pointer" /></span>
         {isError ? (
           
           <div>حدث خطأ أثناء تحميل بيانات المستخدم. حاول مرة أخرى.</div>
@@ -41,7 +42,7 @@ const NavBar = () => {
         ) : (
           
           <div className="flex items-center">
-            <span className="flex items-center gap-2"> {totalItems} <FaCartShopping onClick={path} className="text-red-500 cursor-pointer" /></span>
+           
             <ButtonGame link="/login" text="Login" />
             <ButtonGame link="/signup" text="Sign up" />
           </div>

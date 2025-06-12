@@ -86,7 +86,7 @@ export default function SettingsPage() {
   }, [lang]);
 
   return (
-    <div className="mt-5 h-screen max-w-3xl mx-auto p-8 space-y-8 bg-white dark:bg-gray-900 rounded-lg shadow-md">
+    <div id="settings" className="mt-5 h-screen mx-auto p-8 space-y-8 rounded-lg shadow-md w-full">
       <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">
         {t("Settings")}
       </h1>
@@ -102,13 +102,13 @@ export default function SettingsPage() {
         />
       </section>
 
-      <hr className="border-gray-300 dark:border-gray-700" />
+      <hr className="border-white " />
 
       {/* Background Color Dropdown */}
       <section>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className=" w-full justify-between">
+            <Button id="choosbackgroundcolor" variant="outline" className=" w-full justify-between">
               {t("Choose Background Color")}
               <span
                 className="ml-2 h-4 w-4 rounded border border-yellow-400 dark:border-gray-600"
@@ -143,7 +143,7 @@ export default function SettingsPage() {
         <span className="text-lg font-medium text-gray-800 dark:text-gray-200">
           {t("Language")}
         </span>
-        <Button
+        <Button id="choosbackgroundcolor"
           variant="outline"
           onClick={() => {
             const newLang = lang === "en" ? "ar" : "en";

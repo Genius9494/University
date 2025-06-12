@@ -28,8 +28,57 @@
 #search:hover{
   background: linear-gradient(186deg,rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
 }
+#ratings{
+  background: linear-gradient(186deg,rgb(67, 18, 100) 0%, rgb(168, 52, 75) 100%);
+  /* background-image: url("/spiderman.jpeg");   */
+}
+
+#distinct {
+  background: linear-gradient(186deg,rgb(67, 18, 100) 0%, rgb(168, 52, 75) 100%);
+}
+
+
+#list{
+  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
+}
+
+#settings{
+  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
+}
+
+#choosbackgroundcolor{
+  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
+
+}
+
+#option{
+  direction: ltr;
+}
+
+#direction {
+  direction: ltr;
+}
+
+#select {
+  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
+  }
+
+  #select:hover{
+    background: linear-gradient(186deg,rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
+  }
+
+  #empty {
+    background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
+    }
+  
+    #empty:hover{
+      background: linear-gradient(186deg,rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
+    }
+
+
+
   body{
-    background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(195, 60, 87) 100%);
+     background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(138, 55, 72) 100%);
     /* background: linear-gradient(181deg,rgba(134, 6, 189, 1)
      0%, rgba(134, 6, 189, 1) 45%,
       rgba(154, 152, 250, 1) 5%,
@@ -42,6 +91,10 @@
 }
 #cart {
   background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
+}
+
+#famous {
+  background: linear-gradient(186deg,rgb(67, 18, 100) 0%, rgb(168, 52, 75) 100%);
 }
 
 #span2:hover{

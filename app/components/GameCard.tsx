@@ -209,13 +209,5 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
     </>
   );
   
-};         
-     
-
-
-
-
+};
 export default GameCard;
-
-
-

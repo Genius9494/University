@@ -48,9 +48,9 @@ export default function CartPage() {
             <span className="text-green-400 font-bold text-lg">${(totalPrice/100).toFixed(2)}</span>
           </div>
 
-          <button
+          <button id="empty"
             onClick={clearCart}
-            className="bg-red-500 text-white px-4 py-2 rounded-2xl hover:bg-red-400 mt-4 duration-150"
+            className=" text-white px-4 py-2 rounded-2xl mt-4 duration-150"
           >
             Empty the shopping cart
           </button>

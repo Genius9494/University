@@ -180,7 +180,7 @@ const famousGames: Partial<Game>[] = [
 
 const FamousGamesPage = () => {
   return (
-    <section className="p-6">
+    <section id="famous" className="p-6 mt-5 rounded-2xl">
       <h1 className="text-3xl font-bold mb-4 text-yellow-400 animate-pulse ">🔥 Famous Games</h1>
       <GridContainer cols={3} className="gap-4">
         {famousGames.map((data) => {

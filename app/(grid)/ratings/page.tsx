@@ -1,72 +1,83 @@
-"use client"
-import React from "react";
-import Image from "next/image";
-import { getGame } from "@/app/api/api";
-import GamesSlider from "@/app/components/GamesSlider";
-import SwiperCards from "@/app/components/SwiperCards";
-import { Game } from "@/types"
+"use client";
 
-const page = async ({ params }: { params: { id: string } }) => {
-  try {
-    const { id } = params;
-    const game = await getGame(id);
 
-    const {
-      screenshots,
-      data,
-      similar,
-    }: {
-      screenshots: { results: any[] };
-      data: Game;
-      similar: { results: Game[] };
-    } = game;
+import axios from "axios";
+import { Game, normalizeGame } from "@/types";
+import GridContainer from "@/app/components/defaults/GridContainer";
+import GameCard from "@/app/components/GameCard";
+import { FaGamepad } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+//<icon>
+import { GiTrophyCup } from "react-icons/gi";
+//</icon>//
+const ratings = [
+  { name: "Best Game of the Year", key: "best" },
+  { name: "Top 250 Games", key: "top250" },
+  { name: "Most Popular in 2025", key: "popular2025" },
+];
 
-    const additionalImage = data.background_image_additional;
+const RatingsGamesPage = () => {
+  const [games, setGames] = useState<Game[]>([]);
+  const [selectedRating, setSelectedRating] = useState<string>("best");
 
-    // تجميع الصور والتأكد من أن كلها صالحة
-    const allImages = [
-      ...screenshots.results,
-      ...(additionalImage ? [additionalImage] : []),
-      data.background_image,
-    ].filter(Boolean); // حذف null/undefined
+  useEffect(() => {
+    const fetchGames = async () => {
+      const params: any = {
+        key: "fcbd529a05684ba98365adaf247f7c68", 
+        page_size: 12,
+      };
 
-    return (
-      <div className="mt-10">
-        <div className="col-span-4 flex flex-col gap-2">
-          <h1 className="text-2xl text-white">{data.name}</h1>
-          <div>Rating count : {data.ratings_count}</div>
+      if (selectedRating === "best") {
+        params.dates = "2025-01-01,2025-12-31";
+        params.ordering = "-rating";
+      } else if (selectedRating === "top250") {
+        params.ordering = "-rating";
+      } else if (selectedRating === "popular2025") {
+        params.dates = "2025-01-01,2025-12-31";
+        params.ordering = "-added";
+      }
 
-          <SwiperCards
-            slidesPerView={1}
-            className="h-full"
-            items={allImages.map((screenshot) => ({
-              card: (
-                <div className="rounded-xl overflow-hidden h-[36rem] w-full relative">
-                  <Image
-                    src={screenshot.image || screenshot}
-                    alt={data.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ),
-              src: screenshot.image || screenshot,
-            }))}
-            paginationImages
-          />
-
-          <p className="mt-10 col-span-2">{data.description_raw}</p>
-        </div>
-
-        {similar?.results?.length > 0 && (
-          <GamesSlider title="Similar Games" games={similar.results} />
-        )}
+      try {
+        const res = await axios.get("https://api.rawg.io/api/games", { params });
+        setGames(res.data.results.map(normalizeGame));
+      } catch (err) {
+        console.error("Error fetching games:", err);
+      }
+    };
+    
+    fetchGames();
+  }, [selectedRating]);
+//استدعاء الدالة عند تحميل الصفحة أو تغيير التصنيف.
+  return (
+    <div id="ratings" className="p-6 min-h-screen text-white mt-5 rounded-2xl">
+      {/* Dropdown + Label + Icon */}
+      <div className="mb-8 flex items-center gap-4 ">
+        
+        <select id="select"
+          className="!bg-pink-500 text-white border rounded-xl px-4 py-2 cursor-pointer"
+          value={selectedRating}
+          onChange={(e) => setSelectedRating(e.target.value)}
+        >
+          {ratings.map((cat) => (
+            <option key={cat.key} value={cat.key}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+        <label id="direction" className="flex items-center text-lg font-semibold text-yellow-400">
+          <FaGamepad className="mr-2 text-xl" />
+          Choos a Rating :
+        </label>
       </div>
-    );
-  } catch (error) {
-    console.error("Error in game page:", error);
-    return <div className="text-white p-4">حدث خطأ أثناء تحميل اللعبة.</div>;
-  }
+
+      {/* Games Grid */}
+      <GridContainer cols={3} className="gap-6 mt-28"> 
+        {games.map((game) => (
+          <GameCard key={game.id} game={game} screenBig={false} wishlist />
+        ))}
+      </GridContainer>
+    </div>
+  );
 };
 
-export default page;
+export default RatingsGamesPage;

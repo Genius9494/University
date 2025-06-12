@@ -180,8 +180,8 @@ const distinctGames: Partial<Game>[] = [
 
 const DistinctGames = () => {
   return (
-    <section className="p-6">
-      <h1 className="text-3xl font-bold mb-4 text-yellow-400 animate-pulse">🎖️ Special Games </h1>
+    <section id="distinct" className="p-6 mt-5 rounded-2xl">
+      <h1 className="text-3xl font-bold mb-4 text-yellow-400 animate-pulse">🎖️ Distinct Games </h1>
       <GridContainer cols={3} className="gap-4">
         {distinctGames.map((data) => {
           const game: Game = normalizeGame(data);
