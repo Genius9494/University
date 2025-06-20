@@ -8,7 +8,7 @@ import type SwiperType from "swiper";
 import "swiper/css";
 
 
-const fallbackImage = "/fallback.jpg"; 
+const fallbackImage = "/fallback.jpg";
 
 const SwiperCards = ({
   items,
@@ -38,6 +38,10 @@ const SwiperCards = ({
 
   return (
     <div className="relative h-full gap-3 w-full flex flex-col">
+
+
+      {/* home video */}
+
       <Swiper
         autoplay={{ delay: 3000 }}
         modules={[Autoplay]}
@@ -63,10 +67,9 @@ const SwiperCards = ({
                   swiper?.autoplay.stop();
                 }}
                 key={i}
-                className={`${
-                  swiper?.realIndex === i &&
-                  "shadow-md -translate-y-5 border-yellow-300 border opacity-90"
-                } cursor-pointer hover:-translate-y-5 z-10 hover:shadow-md hover:opacity-90 duration-200 rounded-xl overflow-hidden max-w-lg w-full h-40 relative`}
+                className={`${swiper?.realIndex === i &&
+                  "shadow-md -translate-y-3 border-yellow-300 border opacity-90"
+                  } cursor-pointer hover:-translate-y-2 z-10 hover:shadow-md hover:opacity-90 duration-200 rounded-xl overflow-hidden max-w-lg w-full h-40 relative`}
               >
                 {swiper?.realIndex === i && swiper.autoplay.running && (
                   <div

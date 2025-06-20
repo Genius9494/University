@@ -7,6 +7,7 @@ const KEY = process.env.NEXT_PUBLIC_API_KEY; // أو اكتبه مباشرة ل�
 const page = async () => {
   const res = await fetch(`${APIURL}genres?key=${KEY}`, {
     cache: "no-store", // حتى لا يخزن البيانات في الـ cache
+    
   });
 
   if (!res.ok) {

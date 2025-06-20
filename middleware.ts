@@ -5,8 +5,8 @@ export async function middleware(req: NextRequest, res: NextResponse) {
 
   const token = req.cookies.get("token")?.value;
   const path = req.nextUrl;
-  console.log(token);
-
+  console.log("Token in middleware:", token); 
+  
   const isProtectedRoute = ProtectedRoutes.includes(path.pathname);
   const isAuthRoute = authRoutes.includes(path.pathname);
   console.log(isAuthRoute, path.pathname);

@@ -1,3 +1,4 @@
+
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,18 +9,13 @@ import AddToWishList from "./AddToWishList";
 import { Game, normalizeGame } from "@/types";
 import BuyButton from "./BuyButton";
 
-import {useCart} from "../../app/store/cartStore"
-import { useState, useMemo } from "react";
+import { useCart } from "../../app/store/cartStore";
+import { useState, useEffect } from "react";
 
 import { FaCartShopping } from "react-icons/fa6";
 import toast from 'react-hot-toast'
-  
-type GameCardProps = {
-  game: Game;
-  images?: { image: string }[];
-  wishlist?: boolean;
-  screenBig?: boolean;
-};
+
+
 
 // STARS
 const renderStars = (rating: number) => {
@@ -35,23 +31,55 @@ const renderStars = (rating: number) => {
   return stars;
 };
 
+type GameCardProps = {
+  game: Game;
+  images?: { image: string }[];
+  image?: string;
+  wishlist?: boolean;
+  screenBig?: boolean;
+  discountPercent?: number;
+  discountEndTime?: string;
+};
 
-
-// const GameCard = ({ game, images, wishlist = false }: GameCardProps) => {
-//   if (!game) return null;
-
-const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) => {
+const GameCard = ({ game: rawGame, images, wishlist = false, discountPercent, discountEndTime,image }: GameCardProps) => {
   const game = normalizeGame(rawGame);
-
-  // Function to generate a random price
 
   const price = React.useMemo(() => {
     const min = 100;
     const max = 700;
     return +(Math.random() * (max - min) + min).toFixed(2);
   }, []);
-  
-  
+
+  const [timeLeft, setTimeLeft] = useState<string | null>(null);
+
+  const hasDiscount = discountPercent && discountEndTime;
+  const discountedPrice = hasDiscount
+    ? +(price * (1 - discountPercent / 100)).toFixed(2)
+    : price;
+
+  useEffect(() => {
+    if (!hasDiscount) return;
+
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const end = new Date(discountEndTime!).getTime();
+      const distance = end - now;
+
+      if (distance <= 0) {
+        setTimeLeft(null);
+        clearInterval(interval);  
+        return;
+      }
+
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      setTimeLeft(`${minutes}m ${seconds}s`);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [discountEndTime]);
+
   if (!game) return null;
 
   const {
@@ -65,22 +93,23 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
     tba = false,
     rating_top = 0,
     ratings = [],
-    ratings_count = 0,  
-    reviews_text_count = 0,  
-    added = 0,  
+    ratings_count = 0,
+    reviews_text_count = 0,
+    added = 0,
   } = game;
+
+  const mainImage = background_image || images?.[0]?.image;
 
 
   const [open, setOpen] = useState(false);
   const { cart, addToCart } = useCart();
   const isInCart = cart.some(item => item.id === game.id.toString());
 
-
   const handleAddToCart = () => {
     addToCart({
       id: id.toString(),
       name: game.name,
-      price: price,
+      price: discountedPrice,
       quantity: 1,
     });
     setOpen(true);
@@ -95,119 +124,463 @@ const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) =>
 
   return (
     <>
-    {/* ✅ Snackbar العائم
-    <Snackbar open={open} autoHideDuration={2000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-    <Alert className="!bg-yellow-500" onClose={handleClose} severity="success" variant="filled" sx={{ width: '100%' }}>
-    The game has been added to the cart!
-    </Alert>
-  </Snackbar> */}
-    <HoverCard>
-      <div className="flex relative flex-col items-start gap-4">
-        <HoverCardTrigger className="relative cursor-pointer w-full" asChild>
-          <div>
-            <div className="relative flex flex-col gap-2">
-              {wishlist && (
-                <div className="absolute left-2 top-2 z-10">
-                  <AddToWishList plus gameId={id.toString()} />
-                </div>
-              )}
-              <div className="hover:opacity-80 duration-150 w-full overflow-hidden h-64 relative rounded-xl">
-                {background_image ? (
-                  <Image
-                    className="object-cover"
-                    src={background_image}
-                    alt={name}
-                    fill
-                    priority
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gray-500 flex items-center justify-center text-white text-xs">
-                    No Image Available
+      <HoverCard>
+        <div className="flex relative flex-col items-start">
+          <HoverCardTrigger className="relative cursor-pointer w-full" asChild>
+            <div>
+              <div className="relative flex flex-col gap-2">
+                {wishlist && (
+                  <div className="absolute left-2 top-2 z-10">
+                    <AddToWishList plus gameId={id.toString()} />
                   </div>
                 )}
-              </div>
-              <Link
-                href={`/game/${game.id}`}
-                className="text-sm line-clamp-1 font-semibold text-white"
-              >
-                {name}
-              </Link>
+                <div className="hover:opacity-80 hover:scale-105 hover:rotate-3 duration-150 w-full overflow-hidden h-64 relative rounded-xl mt-2 ">
+                  {mainImage ? (
+                    <>
+                      <Image
+                        className="object-cover"
+                        src={mainImage}
+                        alt={name}
+                        fill
+                        priority
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
 
-              
-              {/* stars */}
-              <div className="flex items-center gap-1">
-                {renderStars(rating)}
-                <span className="text-xs text-gray-300 ml-1">{rating.toFixed(1) || "N/A"}</span>
-              </div>
-              {/* stars// */}
-              
-
-              <p className="text-xs text-gray-300">
-                Released: <span className="font-medium">{released}</span>
-              </p>
-              {/* <span className="text-xs text-green-400 font-bold">
-              price: ${(price/100).toFixed(2)}
-              </span> */}
-
-              
-              <div className="flex Items-center gap-x-3"> 
-              <button
-                  onClick={() => {
-                    if (!isInCart) {
-                      addToCart({
-                        id: game.id.toString(),
-                        name: game.name,
-                        price: price,
-                        quantity: 1,
-                      });
-                      toast.success("The game has been added to the cart!", {
-                        style: {
-                          background:"rgba(0, 0, 0, 1)",
-                          color:"green",
-                          fontWeight:"bold",
-                          fontSize:"15px",
-                          borderRadius:"10px", 
-
-                        }
-                      });
-                    }
-                  }}
-                  disabled={isInCart}
-                  className={`px-4 py-2 text-white rounded-xl transition h-10 mt-6 animate-pulse delay-75 ${
-                    isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
-                  }`}
+                      {discountPercent && discountPercent > 0 && image && (
+                        <div className="absolute bottom-1 -left-2 z-20 w-16 h-16 -rotate-12">
+                          <Image
+                            src={image}
+                            alt="Discount Icon"
+                            fill
+                            className="object-contain"
+                            priority
+                            sizes="(max-width: 100px) 50%vw, 50vw"
+                          />
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="w-full h-full bg-gray-500 flex items-center justify-center text-white text-xs">
+                      No Image Available
+                    </div>
+                  )}
+                </div>
+                <div id="famous" className=" pb-4 rounded-xl p-3 space-y-2">
+                <Link
+                  href={`/game/${game.id}`}
+                  className="text-sm line-clamp-1 font-semibold text-white"
                 >
-                  {isInCart} <FaCartShopping />
-               </button>
+                  {name}
+                </Link>
+                  
+                  <div className="flex items-center gap-1">
+                  {renderStars(rating)}
+                  <span className="text-xs text-gray-300 ">{rating.toFixed(1) || "N/A"}</span>
+                </div>
 
-              <BuyButton name={name} price={price} />
-              </div>
-              
-              
-              <div className="mt-2 flex items-center gap-1">
-                {platforms?.map((slug, i) => {
-                  if (slug === "pc") {
-                    return <FaSteam key={i} title="PC" />;
-                  } else if (slug.includes("playstation")) {
-                    return <FaPlaystation key={i} className="text-blue-500" title="PlayStation" />;
-                  } else if (slug.includes("xbox")) {
-                    return <FaXbox key={i} className="text-green-500" title="Xbox" />;
+                <p className="text-xs text-gray-300">
+                  Released: <span className="font-medium">{released}</span>
+                </p>
+
+                  <div className="text-sm font-bold ">
+                  {hasDiscount ? (
+                    <div className="flex flex-col items-start gap-1">
+                      <span className="text-red-500 ">
+                        Discounted: ${(discountedPrice / 100).toFixed(2)}
+                      </span>
+                      <span className="line-through text-green-600 text-sm ">
+                        Original: ${(price/100).toFixed(2)}
+                      </span>
+                      {timeLeft && (
+                        <span className="text-yellow-400 text-xs">
+                          Ends in: {timeLeft}
+                        </span>
+                      )}
+                      
+                    </div>
+                    
+                  ) 
+                  : (
+                    <span className="text-green-400 font-bold">
+                      Price: ${(price / 100).toFixed(2)}
+                    </span>
+                  )
                   }
-                  return null;
-                })}
+                </div>
+                  <div className="flex Items-center justify-center gap-x-3">
+                    <button
+                      onClick={() => {
+                        if (!isInCart) {
+                          addToCart({
+                            id: game.id.toString(),
+                            name: game.name,
+                            price: discountedPrice,
+                            quantity: 1,
+                          });
+                          toast.success("The game has been added to the cart!", {
+                            style: {
+                              background: "rgba(0, 0, 0, 1)",
+                              color: "green",
+                              fontWeight: "bold",
+                              fontSize: "15px",
+                              borderRadius: "10px",
+                            }
+                          });
+                        }
+                      }}
+                      disabled={isInCart}
+                      className={`px-4 py-2 text-white rounded-xl transition h-10 mt-6 animate-pulse delay-75 ${isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
+                        }`}
+                    >
+                      {isInCart} <FaCartShopping />
+                    </button>
+
+                    <BuyButton name={name} price={discountedPrice} />
+                  </div>
+                </div>
+
+                
+
+                <div className="mt-2 flex items-center gap-1">
+                  {platforms?.map((slug, i) => {
+                    if (slug === "pc") {
+                      return <FaSteam key={i} title="PC" />;
+                    } else if (slug.includes("playstation")) {
+                      return <FaPlaystation key={i} className="text-blue-500" title="PlayStation" />;
+                    } else if (slug.includes("xbox")) {
+                      return <FaXbox key={i} className="text-green-500" title="Xbox" />;
+                    }
+                    return null;
+                  })}
+                </div>
               </div>
             </div>
-          </div>
-        </HoverCardTrigger>
+          </HoverCardTrigger>
 
-        <HoverCardContent align="center" className="w-full bg-transparent border-none">
-          {images && images.length > 0 && <ImageSwitcher game={game} images={images} />}
-        </HoverCardContent>
-      </div>
-    </HoverCard>
+          <HoverCardContent align="center" className="w-full bg-transparent border-none">
+            {images && images.length > 0 && <ImageSwitcher game={game} images={images} />}
+          </HoverCardContent>
+        </div>
+      </HoverCard>
     </>
   );
-  
 };
+
 export default GameCard;
+
+
+
+
+
+
+
+
+
+// const GameCard = ({ game: rawGame, images, wishlist = false, discountPercent, discountEndTime, image }: GameCardProps) => {
+//   const game = normalizeGame(rawGame);
+
+//   // ... باقي الكود كما هو ...
+
+//   const mainImage = background_image || images?.[0]?.image;
+
+//   return (
+//     <>
+//       <HoverCard>
+//         <div className="flex relative flex-col items-start">
+//           <HoverCardTrigger className="relative cursor-pointer w-full" asChild>
+//             <div>
+//               <div className="relative flex flex-col gap-2">
+//                 {wishlist && (
+//                   <div className="absolute left-2 top-2 z-10">
+//                     <AddToWishList plus gameId={id.toString()} />
+//                   </div>
+//                 )}
+//                 <div className="hover:opacity-80 duration-150 w-full overflow-hidden h-64 relative rounded-xl mt-2">
+//                   {mainImage ? (
+//                     <>
+//                       <Image
+//                         className="object-cover"
+//                         src={mainImage}
+//                         alt={name}
+//                         fill
+//                         priority
+//                         sizes="(max-width: 768px) 100vw, 50vw"
+//                       />
+
+//                       {discountPercent && discountPercent > 0 && image && (
+//                         <div className="absolute top-2 right-2 z-20 w-12 h-12">
+//                           <Image
+//                             src={image}
+//                             alt="Discount Icon"
+//                             fill
+//                             className="object-contain"
+//                           />
+//                         </div>
+//                       )}
+//                     </>
+//                   ) : (
+//                     <div className="w-full h-full bg-gray-500 flex items-center justify-center text-white text-xs">
+//                       No Image Available
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 {/* باقي محتويات بطاقة اللعبة ... */}
+//                 <div className="bg-slate-800 pb-4 rounded-xl">
+//                   {/* ... باقي محتويات البطاقة ... */}
+//                 </div>
+
+//                 {/* المنصات Icons */}
+//                 <div className="mt-2 flex items-center gap-1">
+//                   {platforms?.map((slug, i) => {
+//                     if (slug === "pc") {
+//                       return <FaSteam key={i} title="PC" />;
+//                     } else if (slug.includes("playstation")) {
+//                       return <FaPlaystation key={i} className="text-blue-500" title="PlayStation" />;
+//                     } else if (slug.includes("xbox")) {
+//                       return <FaXbox key={i} className="text-green-500" title="Xbox" />;
+//                     }
+//                     return null;
+//                   })}
+//                 </div>
+//               </div>
+//             </div>
+//           </HoverCardTrigger>
+
+//           <HoverCardContent align="center" className="w-full bg-transparent border-none">
+//             {images && images.length > 0 && <ImageSwitcher game={game} images={images} />}
+//           </HoverCardContent>
+//         </div>
+//       </HoverCard>
+//     </>
+//   );
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import { HoverCard, HoverCardTrigger, HoverCardContent } from "@/components/ui/hover-card";
+// import Image from "next/image";
+// import Link from "next/link";
+// import * as React from 'react';
+// import { FaPlaystation, FaXbox, FaSteam } from "react-icons/fa";
+// import ImageSwitcher from "./ImageSwitcher";
+// import AddToWishList from "./AddToWishList";
+// import { Game, normalizeGame } from "@/types";
+// import BuyButton from "./BuyButton";
+
+// import {useCart} from "../../app/store/cartStore"
+// import { useState, useMemo } from "react";
+
+// import { FaCartShopping } from "react-icons/fa6";
+// import toast from 'react-hot-toast'
+  
+// type GameCardProps = {
+//   game: Game;
+//   images?: { image: string }[];
+//   wishlist?: boolean;
+//   screenBig?: boolean;
+  
+// };
+
+// // STARS
+// const renderStars = (rating: number) => {
+//   const fullStars = Math.floor(rating);
+//   const stars = [];
+//   for (let i = 0; i < 5; i++) {
+//     stars.push(
+//       <span key={i} className="text-yellow-400 text-sm">
+//         {i < fullStars ? "★" : "☆"}
+//       </span>
+//     );
+//   }
+//   return stars;
+// };
+
+
+
+// // const GameCard = ({ game, images, wishlist = false }: GameCardProps) => {
+// //   if (!game) return null;
+
+// const GameCard = ({ game: rawGame, images, wishlist = false }: GameCardProps) => {
+//   const game = normalizeGame(rawGame);
+
+//   // Function to generate a random price
+
+//   const price = React.useMemo(() => {
+//     const min = 100;
+//     const max = 700;
+//     return +(Math.random() * (max - min) + min).toFixed(2);
+//   }, []);
+  
+  
+//   if (!game) return null;
+
+//   const {
+//     background_image,
+//     name,
+//     id,
+//     parent_platforms = [],
+//     rating = 0,
+//     released = "Unknown",
+//     slug = "default-slug",
+//     tba = false,
+//     rating_top = 0,
+//     ratings = [],
+//     ratings_count = 0,  
+//     reviews_text_count = 0,  
+//     added = 0,  
+//   } = game;
+
+
+//   const [open, setOpen] = useState(false);
+//   const { cart, addToCart } = useCart();
+//   const isInCart = cart.some(item => item.id === game.id.toString());
+
+
+//   const handleAddToCart = () => {
+//     addToCart({
+//       id: id.toString(),
+//       name: game.name,
+//       price: price,
+//       quantity: 1,
+//     });
+//     setOpen(true);
+//   };
+
+//   const handleClose = (_: unknown, reason?: string) => {
+//     if (reason === 'clickaway') return;
+//     setOpen(false);
+//   };
+
+//   const platforms = parent_platforms?.map((platformObj) => platformObj.platform.slug);
+
+//   return (
+//     <>
+//     <HoverCard>
+//       <div className="flex relative flex-col items-start gap-4">
+//         <HoverCardTrigger className="relative cursor-pointer w-full" asChild>
+//           <div>
+//             <div className="relative flex flex-col gap-2">
+//               {wishlist && (
+//                 <div className="absolute left-2 top-2 z-10">
+//                   <AddToWishList plus gameId={id.toString()} />
+//                 </div>
+//               )}
+//               <div className="hover:opacity-80 duration-150 w-full overflow-hidden h-64 relative rounded-xl">
+//                 {background_image ? (
+//                   <Image
+//                     className="object-cover"
+//                     src={background_image}
+//                     alt={name}
+//                     fill
+//                     priority
+//                     sizes="(max-width: 768px) 100vw, 50vw"
+//                   />
+//                 ) : (
+//                   <div className="w-full h-full bg-gray-500 flex items-center justify-center text-white text-xs">
+//                     No Image Available
+//                   </div>
+//                 )}
+//               </div>
+//               <Link
+//                 href={`/game/${game.id}`}
+//                 className="text-sm line-clamp-1 font-semibold text-white"
+//               >
+//                 {name}
+//               </Link>
+
+              
+//               {/* stars */}
+//               <div className="flex items-center gap-1">
+//                 {renderStars(rating)}
+//                 <span className="text-xs text-gray-300 ml-1">{rating.toFixed(1) || "N/A"}</span>
+//               </div>
+//               {/* stars// */}
+              
+
+//               <p className="text-xs text-gray-300">
+//                 Released: <span className="font-medium">{released}</span>
+//               </p>
+//               {/* <span className="text-xs text-green-400 font-bold">
+//               price: ${(price/100).toFixed(2)}
+//               </span> */}
+
+              
+//               <div className="flex Items-center gap-x-3"> 
+//               <button
+//                   onClick={() => {
+//                     if (!isInCart) {
+//                       addToCart({
+//                         id: game.id.toString(),
+//                         name: game.name,
+//                         price: price,
+//                         quantity: 1,
+//                       });
+//                       toast.success("The game has been added to the cart!", {
+//                         style: {
+//                           background:"rgba(0, 0, 0, 1)",
+//                           color:"green",
+//                           fontWeight:"bold",
+//                           fontSize:"15px",
+//                           borderRadius:"10px", 
+
+//                         }
+//                       });
+//                     }
+//                   }}
+//                   disabled={isInCart}
+//                   className={`px-4 py-2 text-white rounded-xl transition h-10 mt-6 animate-pulse delay-75 ${
+//                     isInCart ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
+//                   }`}
+//                 >
+//                   {isInCart} <FaCartShopping />
+//                </button>
+
+//               <BuyButton name={name} price={price} />
+//               </div>
+              
+              
+//               <div className="mt-2 flex items-center gap-1">
+//                 {platforms?.map((slug, i) => {
+//                   if (slug === "pc") {
+//                     return <FaSteam key={i} title="PC" />;
+//                   } else if (slug.includes("playstation")) {
+//                     return <FaPlaystation key={i} className="text-blue-500" title="PlayStation" />;
+//                   } else if (slug.includes("xbox")) {
+//                     return <FaXbox key={i} className="text-green-500" title="Xbox" />;
+//                   }
+//                   return null;
+//                 })}
+//               </div>
+//             </div>
+//           </div>
+//         </HoverCardTrigger>
+
+//         <HoverCardContent align="center" className="w-full bg-transparent border-none">
+//           {images && images.length > 0 && <ImageSwitcher game={game} images={images} />}
+//         </HoverCardContent>
+//       </div>
+//     </HoverCard>
+//     </>
+//   );
+  
+// };
+// export default GameCard;

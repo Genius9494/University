@@ -80,24 +80,27 @@ export const getUser = async () => {
 };
 
 
-// ✅ تسجيل الخروج
+// ✅ تسجيل الخروج الصحيح
 export const logout = async () => {
   try {
-    const response = NextResponse.json({ success: "Login successful" });
+    const response = NextResponse.json({ success: "Logout successful" });
 
     response.cookies.set("token", "", {
       httpOnly: true,
-      maxAge: 0,
-      path: "/",
+      maxAge: 0, // لحذف الكوكيز فورًا
+      path: "/", // اجعلها / إذا كانت الكوكيز معرفة بـ /
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production",
     });
 
-    return { success: "Logout successful" };
+    return response; // ✅ أرجع الـ NextResponse نفسه
   } catch (error) {
-    return { error: "Logout failed" };
+    return NextResponse.json({ error: "Logout failed" }, { status: 500 });
   }
 };
+
+
+//0f5653da099bc566f9a959a302a3ecf378777d86a004efac8267b552c9adb9fbc1e0de98f4bfac0d421b4c5265fe97ec84468de97f10442eb78
 
 
 

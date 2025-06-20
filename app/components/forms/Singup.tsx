@@ -53,6 +53,7 @@ const Singup = () => {
             body: formData,
           });
 
+
           console.log(res);
           if (!res.ok) {
             const errorResponse = await res.json(); // Show Cloudinary error details

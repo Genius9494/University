@@ -38,7 +38,7 @@ const BuyButton: React.FC<BuyButtonProps> = ({ name, price }) => {
   };
 
   return (
-    <button style={{width:"50%"}}
+    <button style={{width:"75%"}}
       onClick={handleBuy}
       className="bg-green-600 hover:bg-red-700 text-white py-2 px-4 rounded-xl mt-6 h-10 animate-pulse delay-75 text-sm"
     >

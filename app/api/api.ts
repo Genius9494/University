@@ -21,7 +21,7 @@ const fetchFn = async (url: string, cache?: number) => {
 };
 
 
-// البحث عن الألعاب بناءً على استعلام وكلمات مفتاحية
+// بناءً على استعلام وكلمات مفتاحية
 export const searchGames = async function (
   query?: string,
   page = 1,
@@ -38,7 +38,7 @@ export const searchGames = async function (
   return { data, count: data.count };
 };
 
-// الحصول على بيانات لعبة واحدة
+// لعبة واحدة
 export const getGame = async function (id: string) {
   try {
     const data = await fetchFn(`${APIURL}games/${id}?key=${KEY}`);
@@ -50,20 +50,19 @@ export const getGame = async function (id: string) {
   }
 };
 
-// جلب الألعاب حسب النوع (genre)
+// حسب النوع (genre)
 export const getGameFromgenres = async function (genre = "51") {
   const data = await fetchFn(`${APIURL}games?genres=${genre}&page_size=15&key=${KEY}`);
   return data;
-  console.log(data)
 };
 
-// الألعاب حسب منصة معينة
+// حسب منصة معينة
 export const gamebyplatforms = async function (id: string, page = 1, page_size = 20) {
   const data = await fetchFn(`${APIURL}games?platforms=${id}&page_size=${page_size}&page=${page}&key=${KEY}`);
   return data;
 };
 
-// جلب ألعاب متعددة باستخدام IDs
+// متعددة باستخدام IDs
 export const getGamesByIds = async function (ids: string[]) {
   const data = await Promise.all(ids.map((id) => getGame(id)));
   return data;

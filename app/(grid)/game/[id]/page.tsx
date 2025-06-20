@@ -3,7 +3,8 @@ import Image from "next/image";
 import { getGame } from "@/app/api/api";
 import GamesSlider from "@/app/components/GamesSlider";
 import SwiperCards from "@/app/components/SwiperCards";
-import { Game } from "@/types"
+import { Game } from "@/types";
+import AddToWishList from "@/app/components/AddToWishList";
 
 const page = async ({ params }: { params: { id: string } }) => {
   try {
@@ -22,18 +23,37 @@ const page = async ({ params }: { params: { id: string } }) => {
 
     const additionalImage = data.background_image_additional;
 
-    // تجميع الصور والتأكد من أن كلها صالحة
     const allImages = [
       ...screenshots.results,
       ...(additionalImage ? [additionalImage] : []),
       data.background_image,
-    ].filter(Boolean); // حذف null/undefined
+    ].filter(Boolean);
+
+    // ✅ استدعاء المراجعات بشكل آمن
+    let reviews = [];
+    try {
+      const res = await fetch(`${process.env.BASE_URL}/api/reviews/${data.id}`, {
+        cache: "no-store",
+      });
+
+      if (res.ok) {
+        reviews = await res.json();
+      } else {
+        console.warn("Failed to fetch reviews: ", res.status);
+      }
+    } catch (err) {
+      console.error("Error while fetching reviews:", err);
+    }
 
     return (
       <div className="mt-10">
         <div className="col-span-4 flex flex-col gap-2">
           <h1 className="text-2xl text-white">{data.name}</h1>
-          <div>Rating count : {data.ratings_count}</div>
+          <div className="flex items-center justify-between">
+            <div>Rating count: {data.ratings_count}</div>
+            {/* ✅ زر الويش ليست */}
+            <AddToWishList gameId={data.id.toString()} />
+          </div>
 
           <SwiperCards
             slidesPerView={1}
@@ -60,6 +80,26 @@ const page = async ({ params }: { params: { id: string } }) => {
         {similar?.results?.length > 0 && (
           <GamesSlider title="Similar Games" games={similar.results} />
         )}
+
+        {/* ✅ المراجعات */}
+        <div>
+          <h2 className="text-xl font-bold mt-8 mb-4">User Reviews</h2>
+          {reviews.length > 0 ? (
+            reviews.map((r: any) => (
+              <div key={r._id} className="mb-4 border p-4 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-sm">{r.rating} ⭐</span>
+                  <span className="text-xs text-gray-400">
+                    {new Date(r.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+                <p className="text-sm mt-2">{r.comment}</p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-400 text-sm">No reviews yet for this game.</p>
+          )}
+        </div>
       </div>
     );
   } catch (error) {
@@ -69,6 +109,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 };
 
 export default page;
+
 
 
 

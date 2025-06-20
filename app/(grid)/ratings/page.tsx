@@ -24,7 +24,7 @@ const RatingsGamesPage = () => {
     const fetchGames = async () => {
       const params: any = {
         key: "fcbd529a05684ba98365adaf247f7c68", 
-        page_size: 12,
+        page_size: 100,
       };
 
       if (selectedRating === "best") {
@@ -45,8 +45,10 @@ const RatingsGamesPage = () => {
       }
     };
     
+    
     fetchGames();
   }, [selectedRating]);
+  
 //استدعاء الدالة عند تحميل الصفحة أو تغيير التصنيف.
   return (
     <div id="ratings" className="p-6 min-h-screen text-white mt-5 rounded-2xl">

@@ -2,16 +2,15 @@
 
 import React from "react";
 
-// ✅ Components
+// Components
 import ButtonGradient from "../components/ButtonGradient";
 import GridContainer from "../components/defaults/GridContainer";
 import MaxWidthWrapper from "../components/defaults/MaxWidthWrapper";
 import NavBar from "../components/nav/NavBar";
 import SideBar from "../components/nav/SideBar";
 
-// ✅ Context & Providers
+// Context & Providers
 import { WishlistProvider } from "../context/wishlistContext";
-import { ThemeProvider } from "next-themes";
 
 export default function RootLayout({
   children,
@@ -19,19 +18,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    
-      <WishlistProvider>
-        <main className="min-h-screen h-full grid background dark">
-          <ButtonGradient />
-          <GridContainer cols={12}>
-            <SideBar />
-            <MaxWidthWrapper className="col-span-full lg:col-span-10">
-              <NavBar />
-              {children}
-            </MaxWidthWrapper>
-          </GridContainer>
-        </main>
-      </WishlistProvider>
+
+    <WishlistProvider>
+      <main className="min-h-screen h-full grid background dark">
+        <ButtonGradient />
+        <GridContainer cols={12}>
+          <SideBar />
+          <MaxWidthWrapper className="col-span-full lg:col-span-10">
+            <NavBar />
+            {children}
+          </MaxWidthWrapper>
+        </GridContainer>
+      </main>
+    </WishlistProvider>
   );
 }
 

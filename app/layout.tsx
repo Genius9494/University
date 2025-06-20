@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import QueryProvider from "@/lib/QueryProvider";
 import { ThemeProvider } from "next-themes";
-import { TranslationProvider } from "@/lib/TranslationProvider"; 
+import { TranslationProvider } from "@/lib/TranslationProvider";
 
 import { Toaster } from "react-hot-toast";
 
@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className={`${montserrat.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <QueryProvider>
-            <TranslationProvider> 
+            <TranslationProvider>
               <ToastContainer
                 position="top-center"
                 autoClose={2500}
@@ -38,7 +38,7 @@ export default function RootLayout({
                 theme="dark"
               />
               {children}
-              <Toaster  position="top-center" reverseOrder={false}  />
+              <Toaster position="top-center" reverseOrder={false} />
             </TranslationProvider>
           </QueryProvider>
         </ThemeProvider>

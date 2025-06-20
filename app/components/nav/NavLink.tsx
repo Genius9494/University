@@ -4,11 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { ReactElement } from "react";
 
-const NavLink = ({ navLink }: { navLink: { link: string; label: string; icon: ReactElement } }) => {
+const NavLink = ({ navLink }: { navLink: { link: string; label: string; icon: ReactElement }}) => {
   const { label, icon } = navLink;
   const pathName = usePathname(); //hook that needs to be in client mode
   const isActive = pathName === navLink.link;
   return (
+    <div className="font-bold">
     <Link
       href={navLink.link}
       className={`flex  ${
@@ -17,7 +18,9 @@ const NavLink = ({ navLink }: { navLink: { link: string; label: string; icon: Re
     >
       {React.cloneElement(icon, { className: "w-5 h-5 text-green-500" })}
       {label}
+      
     </Link>
+    </div>
   );
 };
 

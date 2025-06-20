@@ -10,48 +10,50 @@
   background-image: url(../public/lojee.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  
+
 }
-#done2{
+
+#done2 {
   direction: ltr;
 }
 
-#ppp::placeholder{
-  color:white;
+#ppp::placeholder {
+  color: white;
   letter-spacing: 1px;
 }
 
 #search {
-  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
 }
 
-#search:hover{
-  background: linear-gradient(186deg,rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
+#search:hover {
+  background: linear-gradient(186deg, rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
 }
-#ratings{
-  background: linear-gradient(186deg,rgb(67, 18, 100) 0%, rgb(168, 52, 75) 100%);
+
+#ratings {
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
   /* background-image: url("/spiderman.jpeg");   */
 }
 
 #distinct {
-  background: linear-gradient(186deg,rgb(67, 18, 100) 0%, rgb(168, 52, 75) 100%);
+  background: linear-gradient(186deg, rgb(65, 18, 96) 0%, rgb(168, 52, 75) 100%);
 }
 
 
-#list{
-  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
+#list {
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
 }
 
-#settings{
-  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
+#settings {
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
 }
 
-#choosbackgroundcolor{
-  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
+#choosbackgroundcolor {
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
 
 }
 
-#option{
+#option {
   direction: ltr;
 }
 
@@ -60,47 +62,45 @@
 }
 
 #select {
-  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
-  }
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
+}
 
-  #select:hover{
-    background: linear-gradient(186deg,rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
-  }
+#select:hover {
+  background: linear-gradient(186deg, rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
+}
 
-  #empty {
-    background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
-    }
-  
-    #empty:hover{
-      background: linear-gradient(186deg,rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
-    }
+#empty {
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(123, 43, 59) 100%);
+}
+
+#empty:hover {
+  background: linear-gradient(186deg, rgb(148, 0, 246) 0%, rgb(164, 35, 61) 100%);
+}
 
 
 
-  body{
-     background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(138, 55, 72) 100%);
-    /* background: linear-gradient(181deg,rgba(134, 6, 189, 1)
-     0%, rgba(134, 6, 189, 1) 45%,
-      rgba(154, 152, 250, 1) 5%,
-       rgba(154, 152, 250, 1) 11%,
-        rgba(134, 6, 189, 1) 32%,
-         rgba(154, 152, 250, 1) 87%,
-          rgba(134, 6, 189, 1) 42%,
-           rgba(154, 152, 250, 1) 68%); */
+body {
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(138, 55, 72) 100%);
+
   direction: rtl;
 }
+
 #cart {
-  background: linear-gradient(186deg,rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(168, 52, 75) 100%);
 }
 
 #famous {
-  background: linear-gradient(186deg,rgb(67, 18, 100) 0%, rgb(168, 52, 75) 100%);
+  background: linear-gradient(186deg, rgb(65, 18, 96) 0%, rgb(168, 52, 75) 100%);
 }
 
-#span2:hover{
-    word-spacing: 3px;
+#span2:hover {
+  word-spacing: 3px;
 }
 
+#blog {
+  background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(40, 99, 73) 100%);
+  width: 250px;
+}
 
 
 @layer base {
@@ -164,6 +164,7 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }

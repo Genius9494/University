@@ -25,16 +25,16 @@ export default function CartPage() {
       ) : (
         <div className="space-y-4">
           {cart.map((item) => (
-            <div key={item.id} className="flex justify-between items-center bg-gray-800 p-4 rounded-2xl overflow-y-auto">
+            <div id="distinct" key={item.id} className="flex justify-between items-center p-4 rounded-2xl overflow-y-auto">
               <div>
-                <p className="text-white font-medium">{item.name}</p>
-                <p className="text-gray-300 text-sm mt-4 gap-4"> Quantity: {item.quantity}</p>
+                <p className="text-white font-semibold">{item.name}</p>
+                <p className="text-gray-300 text-sm mt-4 gap-4 font-semibold"> Quantity: {item.quantity}</p>
               </div>
               <div className="flex items-center gap-2">
                 <p className="text-white font-bold">${(item.price/100 * item.quantity).toFixed(2)}</p>
                 <button
                   onClick={() => removeFromCart(item.id) }
-                  className="text-red-600 text-sm hover:text-red-400 duration-150"
+                  className="text-yellow-500 text-sm hover:text-red-400 duration-150"
                 >
                   Delete
                 </button>

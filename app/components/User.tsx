@@ -14,6 +14,7 @@ const User = () => {
 
   return (
     <div className="cursor-pointer flex items-center gap-3">
+      <h1 className="text-base text-white">{user.data.name}</h1>
       <div className="w-14 h-14 relative rounded-full overflow-hidden">
         <Image
           fill
@@ -24,7 +25,7 @@ const User = () => {
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
-      <h1 className="text-base text-white">{user.data.name}</h1>
+      
     </div>
   );
 };
@@ -90,27 +91,3 @@ export default User;
 // };
 
 // export default User;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

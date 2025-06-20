@@ -2,7 +2,7 @@
 title: "مقارنة بين أشهر منصات الألعاب في 2025: PC، PS5، Xbox، Switch"
 publishedAt: "2025-01-18"
 tags: ["منصات", "مقارنة", "ألعاب"]
-image: "/images/platforms-2025.jpg"
+image: "/public/platforms-2025.jpg"
 ---
 
 في 2025، تتنافس العديد من منصات الألعاب لجذب اللاعبين.

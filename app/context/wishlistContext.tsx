@@ -47,13 +47,9 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
         const res = isInWishList
           ? await removeFromWishList(gameId)
           : await addToWishList(gameId);
+        queryClient.invalidateQueries({ queryKey: ["user"] });
 
-        if (res.success) {
-          toast.success(res.success);
-          queryClient.invalidateQueries({ queryKey: ["user"] });
-        } else {
-          toast.error(res.error);
-        }
+        
       } else {
         if (isInWishList) {
           setWishListLocal((prev) => prev.filter((wish) => wish !== gameId));

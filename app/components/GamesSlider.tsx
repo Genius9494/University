@@ -24,7 +24,7 @@ const GamesSlider = ({
       <div className="flex flex-col gap-6 mt-14">
         <div className="w-full justify-between flex items-center">
           <Heading text={title} />
-          <Link className="text-yellow-300 font-semibold hover:text-green-300" href="/category">
+          <Link className="text-yellow-300 font-semibold hover:text-green-300" href="/ratings">
             Browse All Games
           </Link>
         </div>
@@ -35,7 +35,7 @@ const GamesSlider = ({
           items={games.map((game: Game) => {
             return {
               card: big ? (
-                <div className="flex overflow-hidden items-center text-lg bg-orange-950 rounded-2xl hover:bg-gray-400">
+                <div className="flex overflow-hidden items-center text-lg bg-orange-400 rounded-2xl hover:bg-orange-600 curor-pointer">
                   <div className="flex w-[60%] px-6 flex-col items-start">
                     <h1 className="text-xl border-b-2 border-neutral-100 w-full pb-3 font-semibold text-white">
                       {game.name}
@@ -59,7 +59,7 @@ const GamesSlider = ({
                 <div className="relative cursor-pointer group">
                   <div
                     className="after:absolute after:inset-0 
-                    after:w-0 group-hover:after:w-full after:h-full after:bg-purple-200/45 after:rounded-2xl after:duration-200 
+                    after:w-0 group-hover:after:w-full after:h-full after:bg-purple-300/45 after:rounded-2xl after:duration-200 
                     w-full h-96 rounded-2xl overflow-hidden relative"
                   >
                     <Image

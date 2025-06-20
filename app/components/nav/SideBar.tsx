@@ -4,47 +4,32 @@ import React from "react";
 import { FiAward, FiFeather, FiActivity } from "react-icons/fi";
 import { GiRoyalLove } from "react-icons/gi";
 import { SiHomebridge } from "react-icons/si";
-import { MdCategory } from "react-icons/md";
 import { IoGameController } from "react-icons/io5";
 import NavLink from "./NavLink";
 import Logo from "../defaults/Logo";
 import { useGetUser } from "@/lib/queryFunctions";
 import { Settings } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
+import { GrCubes } from "react-icons/gr";
+import { FaMicroblog } from "react-icons/fa6";
+
+
 
 export const NAV_LINKS = [
   { link: "/Home", label: "Home", icon: <SiHomebridge /> },
   { link: "/games", label: "Games", icon: <IoGameController /> },
   { link: "/wishes", label: "Wishes", icon: <GiRoyalLove /> },
-  { link: "/distinct", label: "Distinct", icon: <FiAward /> },
   { link: "/ratings", label: "Ratings", icon: <FiActivity /> },
   { link: "/famous", label: "Famous", icon: <FiFeather /> },
-  { link: "/blog", label: "Blogs", icon: <FiFeather /> },
+  { link: "/free", label: "Free Games", icon: <GrCubes /> },
+  { link: "/blog", label: "Blogs", icon: <FaMicroblog /> },
+  { link: "/discount", label: "Discounts section", icon: <FiAward /> },
 ];
 
 const SideBar = () => {
   const { user, isLoading } = useGetUser();
   const queryClient = useQueryClient();
-
-  const handleLogout = async () => {
-    try {
-      const res = await fetch("/api/logout", { method: "POST" });
-      const data = await res.json();
-      if ("success" in data || data.message) {
-  toast.success("Logged out successfully");
-  queryClient.invalidateQueries({ queryKey: ["user"] });
-  window.location.href = "/login";
-}
- else {
-        toast.error(data.error || "Logout failed");
-      }
-    } catch {
-      toast.error("Something went wrong during logout!");
-    }
-  };
 
   return (
     <div className="col-span-2">
@@ -95,9 +80,6 @@ const SideBar = () => {
                 icon: <Settings />,
               }}
             />
-            <Button onClick={handleLogout} variant="destructive" className="w-full">
-              Logout
-            </Button>
             
           </div>
         ) : null}

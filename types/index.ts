@@ -116,7 +116,9 @@ export const normalizeGame = (partial: Partial<Game>): Game => {
     src: partial.src ?? '',
     //  السعر
     price: partial.price ?? 0, 
-    //  السعر     
+    //  السعر    
+
+
     tba: partial.tba ?? false,
     background_image: partial.background_image ?? '',
     rating: partial.rating ?? 0,

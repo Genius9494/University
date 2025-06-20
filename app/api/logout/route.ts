@@ -1,4 +1,3 @@
-// app/api/logout/route.ts
 import { NextResponse } from "next/server";
 import { serialize } from "cookie";
 
@@ -6,8 +5,10 @@ export async function POST() {
   try {
     const cookie = serialize("token", "", {
       httpOnly: true,
+      path: "/",            
       expires: new Date(0),
-      path: "/home",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
     });
 
     return new NextResponse(
@@ -27,5 +28,3 @@ export async function POST() {
     });
   }
 }
-
-
