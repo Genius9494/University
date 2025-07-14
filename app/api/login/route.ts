@@ -3,12 +3,13 @@ import connect from "@/lib/connect";
 import User from "../../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { serialize } from "cookie";
+import { cookies } from "next/headers";
 
 const JWT_EXPIRES = 90 * 60; // 90 دقيقة
 
-const generateToken = ({ id }: { id: any }) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET!, {
+// ✅ توليد التوكن
+const generateToken = ({ id, role }: { id: string; role: "admin" | "user" }) => {
+  return jwt.sign({ id, role }, process.env.JWT_SECRET!, {
     expiresIn: JWT_EXPIRES,
   });
 };
@@ -34,8 +35,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Incorrect email or password!" }, { status: 401 });
     }
 
-    const token = generateToken({ id: user._id });
-    const serialized = serialize("token", token, {
+    // ✅ التحقق من الدور الموجود في قاعدة البيانات
+    console.log("🧾 User role from DB:", user.role);
+
+    const token = generateToken({ id: user._id.toString(), role: user.role });
+    const payload = jwt.decode(token);
+    console.log("🔐 JWT Payload:", payload);
+
+    // ✅ حفظ التوكن في الكوكيز
+    (await cookies()).set("token", token, {
       httpOnly: true,
       maxAge: JWT_EXPIRES,
       path: "/",
@@ -43,24 +51,15 @@ export async function POST(req: Request) {
       secure: process.env.NODE_ENV === "production",
     });
 
-    const body = JSON.stringify({
+    return NextResponse.json({
       success: "Login successful",
       data: {
         _id: user._id,
         email: user.email,
         name: user.name,
+        role: user.role,
       },
     });
-
-    const response = new Response(body, {
-      status: 200,
-      headers: {
-        "Set-Cookie": serialized,
-        "Content-Type": "application/json",
-      },
-    });
-
-    return response;
   } catch (error: any) {
     console.error("❌ Login error:", error);
     return NextResponse.json(
@@ -69,6 +68,7 @@ export async function POST(req: Request) {
     );
   }
 }
+
 
 
 

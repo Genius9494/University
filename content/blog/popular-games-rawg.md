@@ -4,6 +4,7 @@ publishedAt: "2025-06-01"
 tags: ["ألعاب", "RAWG", "شعبية"]
 image: "/images/popular-rawg.jpg"
 ---
+![batman](/rocket.jpg)
 
 تعرف على أكثر الألعاب التي لاقت رواجًا على منصة RAWG خلال هذا الشهر.
 

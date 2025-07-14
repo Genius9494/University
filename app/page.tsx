@@ -32,11 +32,16 @@ export default function SplashPage() {
           Let's go in
         </button>
         
+        
       </div>
+      
           <div id='done2' className="mt-5 ml-5 gap- animate-pulse">
             <ButtonGame className='text-red-600 font-bold' link="/login" text="Login" />
             <ButtonGame className='text-red-600 font-bold' link="/signup" text="Sign up" />
           </div>
+      <div id='animate' className="relative overflow-hidden w-full h-32 ">
+        <img src="/fbc.jpg" alt="Lufy" className="absolute w-32 h-32 object-cover animate-marquee  opacity-50"  />
+      </div>
     </div>
   );
 }

@@ -20,7 +20,7 @@ const page = async () => {
 
   return (
     <div className="mt-10 relative flex flex-col gap-5">
-      <Heading text="Games From Genres" />
+      <Heading text="Games From Genres" className="" />
       <Filters generes={generes} />
     </div>
   );

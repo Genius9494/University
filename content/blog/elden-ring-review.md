@@ -4,6 +4,7 @@ publishedAt: "2025-03-15"
 tags: ["مراجعة", "Elden Ring", "ألعاب", "RPG"]
 image: "/images/elden-ring.jpg"
 ---
+![batman](/operation.jpg)
 
 لعبة **Elden Ring** تعتبر من أبرز ألعاب الـ RPG التي صدرت مؤخرًا، حيث تقدم تجربة فريدة من نوعها في عالم مفتوح غني بالتفاصيل.
 

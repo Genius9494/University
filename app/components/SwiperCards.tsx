@@ -64,7 +64,7 @@ const SwiperCards = ({
               <div
                 onClick={() => {
                   swiper?.slideTo(i);
-                  swiper?.autoplay.stop();
+                  // swiper?.autoplay.stop();
                 }}
                 key={i}
                 className={`${swiper?.realIndex === i &&

@@ -4,6 +4,7 @@ publishedAt: "2025-04-15"
 tags: ["ألعاب مستقلة", "تقييمات", "RAWG"]
 image: "/images/indie-games.jpg"
 ---
+![batman](/top.jpg)
 
 الألعاب المستقلة غالبًا ما تقدم أفكارًا مبتكرة وتجارب فريدة.
 

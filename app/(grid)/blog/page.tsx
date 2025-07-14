@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/getBlogPosts";
 
-export const revalidate = 60; // تحديث البيانات كل 60 ثانية
+export const revalidate = 60;
 
 export default function BlogPage() {
   const posts = getAllPosts();

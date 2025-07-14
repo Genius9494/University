@@ -4,6 +4,7 @@ publishedAt: "2025-04-01"
 tags: ["رياضة", "ألعاب", "تقييم"]
 image: "/images/sports-games.jpg"
 ---
+![batman](/analys.jpg)
 
 عام 2025 شهد إصدار العديد من ألعاب الرياضة بجودة عالية.
 

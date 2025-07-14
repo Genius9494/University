@@ -4,6 +4,7 @@ publishedAt: "2025-02-05"
 tags: ["RAWG API", "تطوير", "مواقع"]
 image: "/images/rawg-api.jpg"
 ---
+![batman](/rawg.png)
 
 هل ترغب في بناء موقع ألعاب يعتمد على RAWG API؟ هذا المقال يشرح لك الخطوات الأساسية لاستخدام API.
 

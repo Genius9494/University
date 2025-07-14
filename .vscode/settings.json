@@ -4,5 +4,6 @@
     "debug.terminal.clearBeforeReusing": false,
     "terminal.integrated.accessibleViewFocusOnCommandExecution": false,
     "code-runner.runInTerminal": true,
-    "runInTerminal.clearBeforeRun": true
+    "runInTerminal.clearBeforeRun": true,
+    "codeiumEnterprise.portalUrl": "https://codeium.example.com"
 }

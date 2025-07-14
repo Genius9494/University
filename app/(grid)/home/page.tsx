@@ -33,7 +33,7 @@ export default async function Home() {
       <GamesSlider slidesPerView={3} title="Various Games" games={ps5.data.results} />
       <GamesSlider screenBig big slidesPerView={1} title="New Releases" games={NewGames.map((game) => game.data)} />
       <GamesSlider slidesPerView={2} title="PC Various Games" games={pc.data.results} />      
-      <GamesSlider slidesPerView={5} title="Various Games" games={ps5.data.results} />
+      <GamesSlider slidesPerView={5} title="Action Game" games={ps5.data.results} />
 
     </section>
   );

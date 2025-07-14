@@ -13,6 +13,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTranslation } from "@/lib/TranslationProvider";
 
+
+import { useRouter } from "next/navigation"
+import { useLocalStorageState } from "@/app/hooks/useLocalStorageState"; 
+
+
+
+type UserType = {
+  _id: string;
+  email: string;
+  name: string;
+  password: string;
+  role: "admin" | "user";
+};
+
+// pages/settings.tsx
+
+
+
+
+
+
 const backgroundOptions = [
   { label: "Default", value: "bg-background" },
   { label: "Ocean Blue", value: "bg-blue-900" },
@@ -45,12 +66,68 @@ const backgroundOptions = [
   { label: "Purple", value: "bg-purple" },
   { label: "Orange", value: "bg-orange" },
 ];
+type DecodedUser = {
+  id: string;
+  email: string;
+  role: "admin" | "user";
+};
+
+
+
 
 export default function SettingsPage() {
   const { t, lang, setLang } = useTranslation();
   const { theme, setTheme } = useTheme();
   const [isDarkMode, setIsDarkMode] = useState(theme === "dark");
   const [bgColor, setBgColor] = useState("bg-background");
+
+  const router = useRouter();
+  const [user] = useLocalStorageState<UserType | null>("user", null);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ حماية المستخدمين غير الإداريين
+  useEffect(() => {
+    if (user && user.role !== "admin") {
+      router.push("/Home");
+    } else {
+      setLoading(false);
+    }
+  }, [user, router]);
+    
+
+
+
+
+
+  const [discountPercent, setDiscountPercent] = useState<number>(0);
+  const [discountEndTime, setDiscountEndTime] = useState<string>("");
+
+
+  useEffect(() => {
+    const savedDiscountPercent = localStorage.getItem("discountPercent");
+    const savedDiscountEndTime = localStorage.getItem("discountEndTime");
+
+    if (savedDiscountPercent) setDiscountPercent(Number(savedDiscountPercent));
+    if (savedDiscountEndTime) setDiscountEndTime(savedDiscountEndTime);
+  }, []);
+
+  
+  useEffect(() => {
+    localStorage.setItem("discountPercent", discountPercent.toString());
+  }, [discountPercent]);
+
+  useEffect(() => {
+    localStorage.setItem("discountEndTime", discountEndTime);
+  }, [discountEndTime]);
+
+
+  
+  
+
+  
+
+
+
 
   // تحميل الإعدادات من localStorage عند أول تحميل
   useEffect(() => {
@@ -84,6 +161,9 @@ export default function SettingsPage() {
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   }, [lang]);
+
+
+
 
   return (
     <div id="settings" className="mt-5 h-screen mx-auto p-8 space-y-8 rounded-lg shadow-md w-full">
@@ -153,6 +233,44 @@ export default function SettingsPage() {
           {lang === "en" ? "العربية" : "English"}
         </Button>
       </section>
+
+
+
+
+      
+
+      <hr className="border-gray-300 dark:border-gray-700" />
+
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">خصومات الألعاب</h2>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm text-gray-700 dark:text-gray-300">
+            نسبة الخصم (%)
+          </label>
+          <input
+            type="number"
+            value={discountPercent}
+            onChange={(e) => setDiscountPercent(Number(e.target.value))}
+            className="p-2 rounded-md bg-gray-100 dark:bg-gray-800 text-black dark:text-white"
+            min={0}
+            max={100}
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-sm text-gray-700 dark:text-gray-300">
+            تاريخ انتهاء الخصم
+          </label>
+          <input
+            type="datetime-local"
+            value={discountEndTime}
+            onChange={(e) => setDiscountEndTime(e.target.value)}
+            className="p-2 rounded-md bg-gray-100 dark:bg-gray-800 text-black dark:text-white"
+          />
+        </div>
+      </section>
+
     </div>
   );
 }

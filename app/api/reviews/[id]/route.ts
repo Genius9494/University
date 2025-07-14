@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import GameReview from "@/app/models/review";
-import connect from "@/lib/connect"; // تأكد أنك عامل ملف اتصال MongoDB
+import connect from "@/lib/connect";
 
 export async function POST(req: Request) {
   await connect();

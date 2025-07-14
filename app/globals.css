@@ -2,12 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%);
+    }
+
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 5s linear infinite;
+  }
+}
+
+/* @layer utilities {
+  @keyframes slide {
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-slide {
+    animation: slide 5s linear infinite;
+  }
+} */
+
+
+
 #done {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column !important;
-  background-image: url(../public/lojee.jpg);
+  background-image: url(../public/rocket.jpg);
   background-repeat: no-repeat;
   background-size: cover;
 
@@ -101,6 +135,15 @@ body {
   background: linear-gradient(186deg, rgba(58, 15, 87, 1) 0%, rgb(40, 99, 73) 100%);
   width: 250px;
 }
+
+article img {
+  border-radius: 12px;
+  max-width: 60%;
+  max-height: 300px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+}
+
 
 
 @layer base {

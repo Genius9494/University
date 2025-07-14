@@ -4,6 +4,8 @@ publishedAt: "2025-03-12"
 tags: ["متعدد اللاعبين", "ألعاب", "تجمعات"]
 image: "/images/multiplayer-games.jpg"
 ---
+![batman](/needforspeed.png)
+
 
 الألعاب متعددة اللاعبين تضيف متعة خاصة عند اللعب مع الأصدقاء.
 

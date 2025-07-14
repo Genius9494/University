@@ -1,5 +1,4 @@
-// app/api/me/route.ts
-import { getUser } from "@/app/actions/auth";   // أو المسار الصحيح لدالة getUser
+import { getUser } from "@/app/actions/auth";
 
 export async function GET() {
   const result = await getUser();

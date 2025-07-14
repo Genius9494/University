@@ -4,6 +4,7 @@ publishedAt: "2025-03-30"
 tags: ["RPG", "ألعاب", "2025"]
 image: "/images/rpg-2025.jpg"
 ---
+![batman](/tombrider.jpg)
 
 عام 2025 شهد صدور ألعاب RPG مميزة تقدم قصصًا عميقة وعوالم واسعة.
 

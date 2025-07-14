@@ -1,5 +1,3 @@
-// types/index.ts
-
 export interface Rating {
   id: number;
   title: string;

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import Empty from "@/app/components/defaults/Empty";
 import GridContainer from "@/app/components/defaults/GridContainer";
 import GameCard from "@/app/components/GameCard";
@@ -8,7 +9,6 @@ import GameSkeleton from "@/app/components/GameSkeleton";
 import Heading from "@/app/components/Heading";
 import { useWishlist } from "@/app/context/wishlistContext";
 import { useGetGamesWithIds } from "@/lib/queryFunctions";
-import React from "react";
 import BuyButtonForFreeGames from "@/app/components/BuyBottonForFreeGames";
 import { clear } from "console";
 import { Skeleton } from "@mui/material";
@@ -17,15 +17,12 @@ const Page = () => {
   const { wishlist } = useWishlist();
   const { games, isLoading } = useGetGamesWithIds(wishlist);
 
-
-
   const removeWishes = () => {
 
     localStorage.removeItem("wishlist");
     window.location.reload();
 
   }
-
 
   useEffect(() => {
     console.log("Updated wishlist:", wishlist);
@@ -40,13 +37,13 @@ const Page = () => {
         ) : games.length > 0 ? (
           games.map((game: any, i: number) => (
 
-              <GameCard
-                key={i}
-                wishlist={true}
-                game={game}
-                images={game.short_screenshots || []}
-              />
-            )
+            <GameCard
+              key={i}
+              wishlist={true}
+              game={game}
+              images={game.short_screenshots || []}
+            />
+          )
           )
         ) : (
           <Empty

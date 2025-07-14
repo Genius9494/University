@@ -1,5 +1,5 @@
 "use client";
-import React, { startTransition, useTransition } from "react";
+import React, { startTransition, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,15 +13,26 @@ import Link from "next/link";
 import { FileUploadDemo } from "../FileUpload";
 import { signup } from "@/app/actions/auth";
 import { toast } from "react-toastify";
-import { redirect } from "next/navigation";
 import CountryInput from "./CountryInput";
+import { useRouter } from "next/navigation";
+import { Router } from "lucide-react";
+
+
+
+
+
+
 
 const singupSchema = z
   .object({
     email: z.string().email({ message: "Please enter a valid email" }),
     password: z.string().min(5, { message: "Password must be at least 5 characters" }),
     name: z.string().min(5, { message: "Name must be at least 5 characters" }),
-    avatar: z.any(),
+    avatar: z
+      .any()
+      .refine((files) => !files || files.length === 1, "يرجى اختيار صورة واحدة فقط")
+      .optional(),
+
     confirmPassword: z.string().min(5, { message: "Password must be at least 5 characters" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -35,51 +46,71 @@ const Singup = () => {
       password: "",
       email: "",
       name: "",
-      avatar: "",
       confirmPassword: "",
+      avatar: undefined, // أو avatar: undefined
     },
   });
+  
+
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const onSubmit = async (data: z.infer<typeof singupSchema>) => {
+
+  const onSubmit = (data: z.infer<typeof singupSchema>) => {
     startTransition(async () => {
-      
-      if (data.avatar) {
-        const formData = new FormData();
-        formData.append("file", data.avatar[0]);
-        formData.append("upload_preset", "ml_default");
-        try {
+      try {
+        let avatar;
+
+        if (data.avatar && data.avatar[0]) {
+          const formData = new FormData();
+          formData.append("file", data.avatar[0]);
+          formData.append("upload_preset", "ml_default");
+
           const res = await fetch("https://api.cloudinary.com/v1_1/dxaj2hoal/image/upload", {
             method: "POST",
             body: formData,
           });
 
-
-          console.log(res);
           if (!res.ok) {
-            const errorResponse = await res.json(); // Show Cloudinary error details
+            const errorResponse = await res.json();
             console.error("Cloudinary Error:", errorResponse);
-            throw new Error("Failed to upload photo");
+            toast.error("فشل في رفع الصورة");
+            return;
           }
 
           const cloudinaryData = await res.json();
-          data.avatar = {
+
+          avatar = {
             secure_url: cloudinaryData.secure_url,
             public_id: cloudinaryData.public_id,
           };
-        } catch (error) {
-          console.error("Photo upload failed:", error);
-          return;
         }
-        const response = await signup(data);
-        console.log(response);
+
+        const signupPayload = {
+          email: data.email,
+          password: data.password,
+          name: data.name,
+          avatar,
+        };
+
+
+        const response = await signup(signupPayload);
+        console.log("Signup response:", response); // ✅ safe
+
         if (response?.success) {
           toast.success(response.success);
-          redirect('/login')
+          router.push("/login");
+        } else {
+          toast.error(response?.error || "فشل في إنشاء الحساب");
         }
-        else toast.error(response.error);
+      } catch (error) {
+        console.error("Signup Error:", error);
+        toast.error("حدث خطأ أثناء إنشاء الحساب");
       }
     });
   };
+
+  
+  const [role, setRole] = useState<"user" | "admin">("user"); // القيمة الافتراضية user
 
   return (
     <MotionItem animate={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 30 }}>
@@ -96,6 +127,8 @@ const Singup = () => {
             <FormInput name="password" label="Password" type="password" />{" "}
             <FormInput name="confirmPassword" type="password" label="Confirm Password" />
             <CountryInput />
+
+
             <Button disabled={isPending} type="submit">
               Submit
             </Button>

@@ -193,7 +193,7 @@ const DiscountGames = () => {
             screenBig={false}
             wishlist
             image="/discount30.png"
-            discountPercent={30}
+            discountPercent={90}
             discountEndTime="2025-07-17T23:59:00Z"
           />;
 

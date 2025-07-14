@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useQueryClient } from "@tanstack/react-query";
 import { GrCubes } from "react-icons/gr";
 import { FaMicroblog } from "react-icons/fa6";
+import BackToTopButton from "../BackToTopButton";
 
 
 
@@ -25,6 +26,7 @@ export const NAV_LINKS = [
   { link: "/free", label: "Free Games", icon: <GrCubes /> },
   { link: "/blog", label: "Blogs", icon: <FaMicroblog /> },
   { link: "/discount", label: "Discounts section", icon: <FiAward /> },
+  // { link: "/admin", label: "role", icon: <FiAward /> },
 ];
 
 const SideBar = () => {
@@ -33,6 +35,7 @@ const SideBar = () => {
 
   return (
     <div className="col-span-2">
+      <BackToTopButton />
       <div className="py-5 px-7 h-screen sticky inset-0 flex flex-col items-start bg-black/30 text-gray-50">
         <Logo />
 

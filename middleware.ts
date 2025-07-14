@@ -1,21 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
-import { authRoutes, ProtectedRoutes } from "./routes";
+import { jwtVerify } from "jose";
 
-export async function middleware(req: NextRequest, res: NextResponse) {
-
+export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
-  const path = req.nextUrl;
-  console.log("Token in middleware:", token); 
-  
-  const isProtectedRoute = ProtectedRoutes.includes(path.pathname);
-  const isAuthRoute = authRoutes.includes(path.pathname);
-  console.log(isAuthRoute, path.pathname);
-  if (token && isAuthRoute) {
-    path.pathname = "/";
-    return NextResponse.redirect(path);
+  const url = req.nextUrl.clone();
+
+  if (url.pathname.startsWith("/settings")) {
+    if (!token) {
+      url.pathname = "/Home";
+      return NextResponse.redirect(url);
+    }
+
+    try {
+      // تحضير المفتاح السري للتحقق من التوكن
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
+      // التحقق من التوكن
+      const { payload } = await jwtVerify(token, secret);
+
+      console.log("🧾 Payload from token:", payload);
+
+      // التحقق من دور المستخدم
+      if (payload.role !== "admin") {
+        url.pathname = "/Home";
+        return NextResponse.redirect(url);
+      }
+    } catch (error) {
+      console.error("❌ JWT verification failed:", error);
+      url.pathname = "/Home";
+      return NextResponse.redirect(url);
+    }
   }
+
   return NextResponse.next();
 }
+
 export const config = {
-  matcher: ["/", "/(ar|en)/:path*", "/((?!.*\\..*|_next).*)"],
+  matcher: ["/settings"],
 };

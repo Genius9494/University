@@ -7,7 +7,6 @@ let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
 
 declare global {
-  // لمنع الخطأ أثناء التطوير في Next.js
   var _mongoClientPromise: Promise<MongoClient>;
 }
 

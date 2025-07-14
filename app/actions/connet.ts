@@ -1,4 +1,3 @@
-// lib/mongodb.ts
 import mongoose from "mongoose";
 console.log("Loaded URI:", process.env.MONGO_URI);
 
@@ -14,6 +13,8 @@ let cached: MongooseGlobalCache = (global as any).mongoose;
 if (!cached) {
   cached = (global as any).mongoose = { conn: null, promise: null };
 }
+
+let isConnected = false;
 
 async function connect(): Promise<typeof mongoose> {
   if (cached.conn) return cached.conn;
@@ -38,6 +39,8 @@ async function connect(): Promise<typeof mongoose> {
     throw err;
   }
 }console.log("MONGO_URI from env:", process.env.MONGO_URI);
+
+
 
 
 export default connect;

@@ -4,6 +4,8 @@ import matter from "gray-matter";
 
 const postsDir = path.join(process.cwd(), "content/blog");
 
+
+
 export type BlogPost = {
   title: string;
   slug: string;
@@ -40,3 +42,27 @@ export function getPostBySlug(slug: string): BlogPost {
     slug,
   };
 }
+
+
+
+
+// export function imageAll(){
+//   const imageLoop = [`
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/batman.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//     <img src={"/allimit.jpg"} alt="osama" className="mb-4 w-[60%] rounded-xl" />,
+//   `];
+// }
+

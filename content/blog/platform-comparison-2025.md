@@ -4,6 +4,7 @@ publishedAt: "2025-01-18"
 tags: ["منصات", "مقارنة", "ألعاب"]
 image: "/public/platforms-2025.jpg"
 ---
+![batman](/comparison.jpg)
 
 في 2025، تتنافس العديد من منصات الألعاب لجذب اللاعبين.
 

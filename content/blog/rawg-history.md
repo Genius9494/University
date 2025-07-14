@@ -4,6 +4,7 @@ publishedAt: "2025-06-05"
 tags: ["تاريخ", "RAWG", "ألعاب"]
 image: "/images/rawg-history.jpg"
 ---
+![batman](/history.jpg)
 
 منصة RAWG تقدم نافذة مميزة لتاريخ تطور الألعاب.
 
